@@ -1,3 +1,9 @@
+#!/usr/bin/env node
+/** Guillaume Isabelle GIS-CSM
+ * Vision: Simply create a contact sheet using Docker container
+ 
+ * Current Reality:First testing
+ */
 
 var os = process.platform;
 
