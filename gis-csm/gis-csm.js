@@ -13,7 +13,7 @@ var path = require('path');
 var resolve = path.resolve;
 var target_file_name_only = path.basename(target_file);
 var target_dir = path.dirname(target_file);
-console.log(target_dir);
+// console.log(target_dir);
 var mount_in = "/work/input";
 var mount_out = "/out";
 
