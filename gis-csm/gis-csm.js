@@ -36,7 +36,7 @@ if (os == "win32") {
     .then(output => {
       //console.log(output);
 
-      run_docker(output);
+      make_docker_cmd(output);
     })
     .catch(err => {
       console.log(err);
@@ -54,30 +54,31 @@ else {
     `export indir=$(pwd);export outdir="$(realpath ${target_dir})";echo "$indir\n$outdir"`,
     function (err, data, stderr) {
       // console.log(data);
-      run_docker(data);
+      make_docker_cmd(data);
     }
   );
 
 }
 
 
-function run_docker(output) {
+function make_docker_cmd(output) {
   var arr = output.split("\n");
   var inPath = arr[0];
   var outPath = arr[1];
 
   var cmdToRun =
-    `docker run -it --rm ` +
+    `docker run -d -t --rm ` +
     `-v ${inPath.trim()}:${mount_in} ` +
     `-v ${outPath.trim()}:${mount_out}  ` +
     `${container_tag}  ` +
     `${target_file_name_only}`;
-    platform_run(cmdToRun);
-    
+
+  platform_run(cmdToRun);
+
 }
 
 function platform_run(cmdToRun) {
-  
+
   console.log("Running: " + cmdToRun);
   console.log("  on platform: " + os);
 
@@ -102,12 +103,12 @@ function platform_run(cmdToRun) {
   else {
     //we assume linux
     var cmd = require('node-cmd');
-    
+
     cmd.run(
       cmdToRun,
       function (err, data, stderr) {
         console.log(data);
-        
+
       }
     );
 
