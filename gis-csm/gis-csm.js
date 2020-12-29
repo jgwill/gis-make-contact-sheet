@@ -114,6 +114,8 @@ function platform_run(cmdToRun) {
 
   }
 
-  console.log("Container is working in background and will stop when done :)");
-  console.log(` your result will be : ${target_file}`);
+  console.log(`---------------------------
+  Container is working in background and will stop when done :)`);
+  console.log(` your result will be : ${target_file}
+  ---------------------------------------`);
 }
