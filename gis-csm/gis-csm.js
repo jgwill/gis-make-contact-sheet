@@ -95,6 +95,7 @@ function platform_run(cmdToRun) {
     ps.invoke()
       .then(output => {
         console.log(output);
+        console.log("--Win32 Issue:  You can press CTRL+C to break back to terminal at any time");
       })
       .catch(err => {
         console.log(err);
