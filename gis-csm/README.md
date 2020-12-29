@@ -13,3 +13,9 @@ gis-csm ../mycontactsheet.jpg
 * Docker
 
 
+----
+
+# Further research
+
+* Use this project as a model to build Command Wrapper for Containerized infrastructure
+
