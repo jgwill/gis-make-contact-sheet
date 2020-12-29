@@ -64,10 +64,10 @@ function run_docker(output) {
   var outPath = arr[1];
 
   console.log(
-    `docker run -it --rm \\
-    -v ${inPath.trim()}:/work/input \\
-    -v ${outPath.trim()}:/out \\
-    ${container_tag} \\
-    ${target_file_name_only}`);
+    `docker run -it --rm `+
+    `-v ${inPath.trim()}:/work/input `+ 
+    `-v ${outPath.trim()}:/out  `+ 
+    `${container_tag}  `+ 
+    `${target_file_name_only}`);
   // console.log(out);
 }
