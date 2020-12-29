@@ -4,6 +4,12 @@
  
  * Current Reality:First testing
  */
+var container_tag = "jgwill/gis-csm";
+var mount_in = "/work/input";
+var mount_out = "/out";
+
+
+
 
 var os = process.platform;
 
@@ -14,8 +20,6 @@ var resolve = path.resolve;
 var target_file_name_only = path.basename(target_file);
 var target_dir = path.dirname(target_file);
 // console.log(target_dir);
-var mount_in = "/work/input";
-var mount_out = "/out";
 
 if (os == "win32") {
   //running context will use Powershell to run docker
@@ -56,7 +60,6 @@ else {
 
 }
 
-var container_tag = "jgwill/csm";
 
 function run_docker(output) {
   var arr = output.split("\n");
@@ -65,8 +68,8 @@ function run_docker(output) {
 
   console.log(
     `docker run -it --rm `+
-    `-v ${inPath.trim()}:/work/input `+ 
-    `-v ${outPath.trim()}:/out  `+ 
+    `-v ${inPath.trim()}:${mount_in} `+ 
+    `-v ${outPath.trim()}:${mount_out}  `+ 
     `${container_tag}  `+ 
     `${target_file_name_only}`);
   // console.log(out);
