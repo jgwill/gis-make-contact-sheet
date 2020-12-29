@@ -66,11 +66,50 @@ function run_docker(output) {
   var inPath = arr[0];
   var outPath = arr[1];
 
-  console.log(
-    `docker run -it --rm `+
-    `-v ${inPath.trim()}:${mount_in} `+ 
-    `-v ${outPath.trim()}:${mount_out}  `+ 
-    `${container_tag}  `+ 
-    `${target_file_name_only}`);
-  // console.log(out);
+  var cmdToRun =
+    `docker run -it --rm ` +
+    `-v ${inPath.trim()}:${mount_in} ` +
+    `-v ${outPath.trim()}:${mount_out}  ` +
+    `${container_tag}  ` +
+    `${target_file_name_only}`;
+    platform_run(cmdToRun);
+    
+}
+
+function platform_run(cmdToRun) {
+  
+  console.log("Running: " + cmdToRun);
+  console.log("  on platform: " + os);
+
+  if (os == "win32") {
+    //running context will use Powershell to run docker
+    const Shell = require('node-powershell');
+
+    const ps = new Shell({
+      executionPolicy: 'Bypass',
+      noProfile: true
+    });
+
+    ps.addCommand(cmdToRun);
+    ps.invoke()
+      .then(output => {
+        console.log(output);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  else {
+    //we assume linux
+    var cmd = require('node-cmd');
+    
+    cmd.run(
+      cmdToRun,
+      function (err, data, stderr) {
+        console.log(data);
+        
+      }
+    );
+
+  }
 }
