@@ -1,6 +1,6 @@
 {
   "name": "gis-csm",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "CLI wrapper for Contact sheet maker using containerized infrastructure",
   "main": "csm",
   "scripts": {
@@ -10,7 +10,7 @@
     "gis-csm": "gis-csm.js"
   },
   "repository": {
-    "bugs":"https://github.com/jgwill/gis-make-contact-sheet/issues",
+    "bugs": "https://github.com/jgwill/gis-make-contact-sheet/issues",
     "type": "git",
     "url": "https://github.com/jgwill/gis-make-contact-sheet/tree/main/gis-csm",
     "directory": "/gis-csm"
