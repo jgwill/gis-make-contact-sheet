@@ -7,6 +7,12 @@ Making a contact sheet and adapt to Operating system context.
 gis-csm ../mycontactsheet.jpg
 # It will start the docker container in bg to do its work
 ```
+# Install
+
+```sh
+npm i gis-csm --g
+docker pull jgwill/gis-csm
+```
 
 # Dependencies
 
