@@ -1,0 +1,30 @@
+{
+  "name": "gis-csm",
+  "version": "0.0.1",
+  "description": "CLI wrapper for Contact sheet maker using containerized infrastructure",
+  "main": "csm",
+  "scripts": {
+    "test": "node csm.js my_source_dir mycontact.jpg"
+  },
+  "bin": {
+    "gis-csm": "gis-csm.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jgwill/gis-make-contact-sheet.git"
+  },
+  "keywords": [
+    "contact-sheet",
+    "cli"
+  ],
+  "author": "Guillaume Descoteaux-Isabelle",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jgwill/gis-make-contact-sheet/issues"
+  },
+  "homepage": "https://github.com/jgwill/gis-make-contact-sheet#readme",
+  "dependencies": {
+    "node-cmd": "^4.0.0",
+    "node-powershell": "^4.0.0"
+  }
+}
