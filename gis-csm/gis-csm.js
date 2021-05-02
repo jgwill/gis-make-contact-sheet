@@ -46,7 +46,7 @@ try {
 var appStartMessage = 
 `Multi platform Contact Sheet maker
 By Guillaume Descoteaux-Isabelle, 2020-2021
-version 0.2.38
+version 0.2.39
 ----------------------------------------`;
 if (myArgs == null  || showHelp)
 {
