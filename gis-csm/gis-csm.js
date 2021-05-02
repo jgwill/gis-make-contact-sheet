@@ -22,7 +22,26 @@ var resolve = path.resolve;
 
 const yargs = require('yargs');
 //const { hideBin } = require('yargs/helpers')
-const argv = yargs(process.argv).argv;
+//const argv =
+ yargs(process.argv)
+    .command('serve [port]', 'start the server', (yargs) => {
+      yargs
+        .positional('port', {
+          describe: 'port to bind on',
+          default: 5000
+        })
+    }, (argv) => {
+      if (argv.verbose) console.info(`start server on :${argv.port}`)
+      //serve(argv.port)
+      console.log("test");
+    })
+    .option('verbose', {
+      alias: 'v',
+      type: 'boolean',
+      description: 'Run with verbose logging'
+    })
+.argv;
+process.exit(1);
 // const argv = yargs(hideBin(process.argv)).argv
 
 var useBaseDirName =  false;
@@ -118,7 +137,7 @@ target_dir = path.dirname(target_file);
 // console.log(target_file);
 // console.log(target_dir);
 // console.log(target_file_name_only);
-//process.exit(0);
+process.exit(0);
 
 if (os == "win32") {
   //running context will use Powershell to run docker
