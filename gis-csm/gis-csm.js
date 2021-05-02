@@ -20,13 +20,14 @@ var path = require('path');
 var fs = require('fs');
 var resolve = path.resolve;
 
+const yargs = require('yargs');
+var ver = yargs.version();
 
 var appStartMessage = 
 `Multi platform Contact Sheet maker
 By Guillaume Descoteaux-Isabelle, 2020-2021
-version 0.2.39
+version ${ver}
 ----------------------------------------`;
-const yargs = require('yargs');
 //const { argv } = require('process');
 //const { hideBin } = require('yargs/helpers')
 const argv = yargs(process.argv)
