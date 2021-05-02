@@ -24,7 +24,7 @@ var target_dir = "";
 var myArgs = process.argv.slice(2);
 
 
-if (myArgs[0] == "--help")
+if (myArgs && myArgs[0] == "--help")
 {
   console.log(`
   Multi platform Contact Sheet maker
@@ -44,6 +44,7 @@ if (myArgs[0] == "--help")
   `);
   process.exit(0);
 }
+
 //Use the first arguments as
 if (myArgs[0])
 {
@@ -54,6 +55,7 @@ if (myArgs[0])
 else
 {
   //@status We assume a one level file with the name of this folder will be created
+  console.log("__dirname:" + __dirname);
   var cdir = __dirname;
   var cdirBasename = path.basename(cdir);
   target_file =  "../" + preFix + cdirBasename + sufFix + ext ;
