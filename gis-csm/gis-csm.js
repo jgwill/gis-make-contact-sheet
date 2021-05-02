@@ -30,6 +30,7 @@ if (myArgs && myArgs[0] == "--help")
   console.log(`
   Multi platform Contact Sheet maker
   By Guillaume Descoteaux-Isabelle, 2020
+  version 0.1.25
   ----------------------------------------
   
   # Execute in the current directory of images you want contact sheet to be
