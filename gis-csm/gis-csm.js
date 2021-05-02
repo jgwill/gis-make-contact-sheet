@@ -4,22 +4,47 @@
  
  * Current Reality:First testing
  */
+var preFix = "_";var sufFix = ".csm";var ext = ".jpg";
 var container_tag = "jgwill/gis-csm";
 var mount_in = "/work/input";
 var mount_out = "/out";
 
-
-
-
 var os = process.platform;
 
-var myArgs = process.argv.slice(2);
-var target_file = myArgs[0];
+
+
 var path = require('path');
 var resolve = path.resolve;
-var target_file_name_only = path.basename(target_file);
-var target_dir = path.dirname(target_file);
-// console.log(target_dir);
+
+//Init vars
+var target_file ="";
+var target_file_name_only ="";
+var target_dir = "";
+
+var myArgs = process.argv.slice(2);
+
+
+//Use the first arguments as
+if (myArgs[0])
+{
+  //@a We have specified an output file for the CS
+  target_file = myArgs[0];
+  // console.log(target_dir);
+}
+else
+{
+  //@status We assume a one level file with the name of this folder will be created
+  var cdir = __dirname;
+  var cdirBasename = path.basename(cdir);
+  target_file =  "../" + preFix + cdirBasename + sufFix + ext ;
+  //@STCGoal That we have a file in ../_$basedir.csm.jpg created if noargs.
+  //console.log(target_file);
+  //process.exit(0);
+  
+}
+
+target_file_name_only = path.basename(target_file);
+target_dir = path.dirname(target_file);
 
 if (os == "win32") {
   //running context will use Powershell to run docker
