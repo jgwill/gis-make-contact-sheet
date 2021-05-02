@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #@STCGoal ADD Feature Custom Label that is a Checkpoint.
-
+export out=$1
 label='%f'
 if [ "$2" != "" ];then
 
@@ -39,7 +39,7 @@ if [ "$2" != "" ];then
          
          label=$tmpstring
          tfile=$c'__'$label'.jpg'
-         echo "$tmpstring  : $tfile" >> log.csm.txt
+         echo "Resized: $tmpstring  : $tfile" >> log.csm.txt
 
          convert -geometry 200x -auto-orient $i ../$wdir/$tfile #@state image is resized in $wdir
 
@@ -50,13 +50,15 @@ if [ "$2" != "" ];then
    ls $wdir >> input/log.csm.txt
    echo "-----------DONE RESIZE----$(date)-----------">> input/log.csm.txt
 
+   fn=$1
+   fnb=${fn%.*}
+   export out=$fnb'.l.jpg'
 
 fi
 #exit 0
+echo montage -verbose -label '%f' -font Helvetica -pointsize 11 -background '#000000' -fill 'gray' -define jpeg:size=200x200 -geometry 200x200+2+2 -auto-orient $wdir/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$out >> input/log.csm.txt
 
-echo montage -verbose -label '%f' -font Helvetica -pointsize 11 -background '#000000' -fill 'gray' -define jpeg:size=200x200 -geometry 200x200+2+2 -auto-orient $wdir/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$1 >> input/log.csm.txt
-
-montage -verbose -label '%f' -font Helvetica -pointsize 11 -background '#000000' -fill 'gray' -define jpeg:size=200x200 -geometry 200x200+2+2 -auto-orient $wdir/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$1
+montage -verbose -label '%f' -font Helvetica -pointsize 11 -background '#000000' -fill 'gray' -define jpeg:size=200x200 -geometry 200x200+2+2 -auto-orient $wdir/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$out
 
 echo "--------ALL DONE------$(date)------------">> input/log.csm.txt
 # montage -verbose -label $label -font Helvetica -pointsize 10 -background '#000000' -fill 'gray' -define jpeg:size=200x200 -geometry 200x200+2+2 -auto-orient input/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$1
