@@ -31,14 +31,15 @@ try {
   
 }
 
-
+var appStartMessage = 
+`Multi platform Contact Sheet maker
+By Guillaume Descoteaux-Isabelle, 2020
+version 0.1.30
+----------------------------------------`;
 if (myArgs && myArgs[0] == "--help")
 {
   console.log(`
-  Multi platform Contact Sheet maker
-  By Guillaume Descoteaux-Isabelle, 2020
-  version 0.1.29
-  ----------------------------------------
+${appStartMessage}
   
   # Execute in the current directory of images you want contact sheet to be
   gis-csm ([TARGET FILE]) optional
@@ -54,6 +55,13 @@ if (myArgs && myArgs[0] == "--help")
   process.exit(0);
 }
 
+//-----------------------------VERBOSE
+var v = false;
+if (myArgs && (myArgs[0] || myArgs[1]) &&(myArgs[0] == "--verbose" || myArgs[1] == "--verbose"  ) )v=true;
+vb(appStartMessage,"","","");
+vb("VERBOSE IS ON");
+//process.exit(1);
+
 //Use the first arguments as
 if (myArgs && myArgs[0])
 {
@@ -68,6 +76,7 @@ else
   var cdir = process.cwd();
   var cdirBasename = path.basename(cdir);
   target_file =  "../" + preFix + cdirBasename + sufFix + ext ;
+  vb("target_file" + target_file);
   //@STCGoal That we have a file in ../_$basedir.csm.jpg created if noargs.
   
 }
@@ -83,30 +92,30 @@ target_dir = path.dirname(target_file);
 if (os == "win32") {
   //running context will use Powershell to run docker
   const Shell = require('node-powershell');
-
+  
   const ps = new Shell({
     executionPolicy: 'Bypass',
     noProfile: true
   });
-
+  
   ps.addCommand(`$in = \${PWD}.path;$out = Resolve-Path ${target_dir};echo "$in";"$out"`);
-
+  
   ps.invoke()
-    .then(output => {
-      //console.log(output);
-
-      make_docker_cmd(output);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  .then(output => {
+    //console.log(output);
+    
+    make_docker_cmd(output);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 }
 else {
   //we assume linux
   var cmd = require('node-cmd');
-
+  
   //*nix supports multiline commands
-
+  
   // cwd = cmd.runSync('echo "$(pwd)"');
   // outputting(cwd);
   cmd.run(
@@ -115,53 +124,55 @@ else {
       // console.log(data);
       make_docker_cmd(data);
     }
-  );
-
-}
-
-
-/**
- * Make a docker container command from input system dir and target dir prepared for the required platform path token (slash or backslash, why do windows choose backslash, anyway ?? to make us code this..nahh)
- * By Guillaume Descoteaux-Isabelle, 2020
- * @param {*} output 
- */
-function make_docker_cmd(output) {
-  var arr = output.split("\n");
-  var inPath = arr[0];
-  var outPath = arr[1];
-
-  var cmdToRun =
+    );
+    
+  }
+  
+  
+  /**
+   * Make a docker container command from input system dir and target dir prepared for the required platform path token (slash or backslash, why do windows choose backslash, anyway ?? to make us code this..nahh)
+   * By Guillaume Descoteaux-Isabelle, 2020
+   * @param {*} output 
+   */
+  function make_docker_cmd(output) {
+    var arr = output.split("\n");
+    var inPath = arr[0];
+    var outPath = arr[1];
+    
+    var cmdToRun =
     `docker run -d -t --rm ` +
     `-v ${inPath.trim()}:${mount_in} ` +
     `-v ${outPath.trim()}:${mount_out}  ` +
     `${container_tag}  ` +
     `${target_file_name_only}`;
-
-  platform_run(cmdToRun);
-
-}
-
-/**
- * Run a command on the platform context using node-cmd or node-powershell basically makes running commands compatible with windows.
- * by Guillaume Descoteaux-Isabelle, 2020
- * @param {*} cmdToRun 
- */
-function platform_run(cmdToRun) {
-
-  console.log("Running: " + cmdToRun);
-  console.log("  on platform: " + os);
-
-  if (os == "win32") {
-    //running context will use Powershell to run docker
-    const Shell = require('node-powershell');
-
-    const ps = new Shell({
-      executionPolicy: 'Bypass',
-      noProfile: true
-    });
-
-    ps.addCommand(cmdToRun);
-    ps.invoke()
+    
+    vb("Docker Commands ",cmdToRun);
+    platform_run(cmdToRun);
+    
+  }
+  
+  /**
+   * Run a command on the platform context using node-cmd or node-powershell basically makes running commands compatible with windows.
+   * by Guillaume Descoteaux-Isabelle, 2020
+   * @param {*} cmdToRun 
+   */
+  function platform_run(cmdToRun) {
+    
+    console.log("Running: " + cmdToRun);
+    console.log("  on platform: " + os);
+    
+    if (os == "win32") {
+      vb("Windows system detected");
+      //running context will use Powershell to run docker
+      const Shell = require('node-powershell');
+      
+      const ps = new Shell({
+        executionPolicy: 'Bypass',
+        noProfile: true
+      });
+      
+      ps.addCommand(cmdToRun);
+      ps.invoke()
       .then(output => {
         console.log(output);
         console.log("--Win32 Issue:  You can press CTRL+C to break back to terminal at any time");
@@ -169,25 +180,30 @@ function platform_run(cmdToRun) {
       .catch(err => {
         console.log(err);
       });
-  }
-  else {
-    //we assume linux
-    var cmd = require('node-cmd');
-
-    cmd.run(
-      cmdToRun,
-      function (err, data, stderr) {
-        if (err) console.log(err);
-        if (stderr) console.log(stderr);
-        console.log(data);
-
+    }
+    else {
+      vb("Non windows os detected");
+      //we assume linux
+      var cmd = require('node-cmd');
+      
+      cmd.run(
+        cmdToRun,
+        function (err, data, stderr) {
+          if (err) console.log(err);
+          if (stderr) console.log(stderr);
+          console.log(data);
+          
+        }
+        );
+        
       }
-    );
+      
+      console.log(`---------------------------
+      Container is working in background and will stop when done :)`);
+      console.log(` your result will be : ${target_file}
+      ---------------------------------------`);
+    }
 
-  }
-
-  console.log(`---------------------------
-  Container is working in background and will stop when done :)`);
-  console.log(` your result will be : ${target_file}
-  ---------------------------------------`);
+function vb(log,b4Log=" ",prefix="----",separator=" : "){
+  if (v) console.log(prefix +b4Log+ separator+ log);
 }
