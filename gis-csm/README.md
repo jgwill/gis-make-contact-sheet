@@ -2,9 +2,12 @@
 
 Making a contact sheet and adapt to Operating system context.
 
-# Run from directory where all your files are
+# Usage
+## Run from directory where all your files are
 ```sh
-gis-csm ../mycontactsheet.jpg
+gis-csm ../mycontactsheet.jpg #specify target image
+gis-csm   # no target will use _$CURRENT_BASEDIR.csm.jpg
+
 # It will start the docker container in bg to do its work
 ```
 # Install
@@ -17,6 +20,7 @@ docker pull jgwill/gis-csm
 # Dependencies
 
 * Docker
+* NodeJS (obviously ;) )
 
 
 ----
