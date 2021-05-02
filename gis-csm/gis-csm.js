@@ -30,7 +30,7 @@ if (myArgs[0] == "--help")
   Multi platform Contact Sheet maker
   By Guillaume Descoteaux-Isabelle, 2020
   ----------------------------------------
-
+  
   # Execute in the current directory of images you want contact sheet to be
   gis-csm ([TARGET FILE]) optional
   
@@ -106,6 +106,11 @@ else {
 }
 
 
+/**
+ * Make a docker container command from input system dir and target dir prepared for the required platform path token (slash or backslash, why do windows choose backslash, anyway ?? to make us code this..nahh)
+ * By Guillaume Descoteaux-Isabelle, 2020
+ * @param {*} output 
+ */
 function make_docker_cmd(output) {
   var arr = output.split("\n");
   var inPath = arr[0];
@@ -122,6 +127,11 @@ function make_docker_cmd(output) {
 
 }
 
+/**
+ * Run a command on the platform context using node-cmd or node-powershell basically makes running commands compatible with windows.
+ * by Guillaume Descoteaux-Isabelle, 2020
+ * @param {*} cmdToRun 
+ */
 function platform_run(cmdToRun) {
 
   console.log("Running: " + cmdToRun);
