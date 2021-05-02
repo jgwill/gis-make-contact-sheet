@@ -108,6 +108,8 @@ function platform_run(cmdToRun) {
     cmd.run(
       cmdToRun,
       function (err, data, stderr) {
+        if (err) console.log(err);
+        if (stderr) console.log(stderr);
         console.log(data);
 
       }
