@@ -2,3 +2,5 @@ package-lock.json
 node_modules
 tests/
 *.csm.jpg
+yarn.lock
+
