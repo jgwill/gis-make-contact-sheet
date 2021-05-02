@@ -35,10 +35,10 @@ try {
 
 var appStartMessage = 
 `Multi platform Contact Sheet maker
-By Guillaume Descoteaux-Isabelle, 2020
-version 0.1.36
+By Guillaume Descoteaux-Isabelle, 2020-2021
+version 0.2.38
 ----------------------------------------`;
-if (!myArgs || myArgs[0] == "--help")
+if (myArgs == null  || !myArgs[0] || myArgs[0] == "--help")
 {
   console.log(`
 ${appStartMessage}
@@ -63,7 +63,7 @@ ${appStartMessage}
 
 //-----------------------------VERBOSE
 var v = false;
-if (myArgs 
+if (myArgs && (myArgs[0] || myArgs[1]|| myArgs[2]) 
   &&
   (myArgs[0] == "--verbose" || myArgs[1] == "--verbose"  )
   || myArgs[2] == "--verbose"  )  v=true;
@@ -73,10 +73,10 @@ vb("VERBOSE IS ON");
 //process.exit(1);
 
 var l = false;
-if (myArgs && (myArgs[0] || myArgs[1]) &&(myArgs[0] == "--label" || myArgs[1] == "--label"|| myArgs[2] == "--label"  ) )l=true;
+if (myArgs && (myArgs[0] || myArgs[1]|| myArgs[2]) &&(myArgs[0] == "--label" || myArgs[1] == "--label"|| myArgs[2] == "--label"  ) )l=true;
 if (l) vb("LABEL MODE IS ON");
 
-//Use the first arguments as
+//Use the first arguments as file if not BASEDIRNAME
 if (myArgs && (myArgs[0] != "--c" ||  myArgs[0] != "--cd" || myArgs[0] != "-c")
    &&
      (myArgs[0] != "--verbose" && myArgs[0] != "--label" )
@@ -84,6 +84,7 @@ if (myArgs && (myArgs[0] != "--c" ||  myArgs[0] != "--cd" || myArgs[0] != "-c")
 {
   //@a We have specified an output file for the CS
   target_file = myArgs[0];  
+  vb("FILE WAS SPECIFIED: " + target_file);
   // console.log(target_dir);
 }
 else
@@ -109,7 +110,7 @@ target_dir = path.dirname(target_file);
 // console.log(target_file);
 // console.log(target_dir);
 // console.log(target_file_name_only);
-//process.exit(0);
+process.exit(0);
 
 if (os == "win32") {
   //running context will use Powershell to run docker
