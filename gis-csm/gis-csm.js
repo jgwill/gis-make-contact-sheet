@@ -4,6 +4,7 @@
  
  * Current Reality:First testing
  */
+
 var preFix = "_";var sufFix = ".csm";var ext = ".jpg";
 var container_tag = "jgwill/gis-csm";
 var mount_in = "/work/input";
