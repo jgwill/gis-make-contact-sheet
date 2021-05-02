@@ -20,6 +20,16 @@ var path = require('path');
 var fs = require('fs');
 var resolve = path.resolve;
 
+const yargs = require('yargs');
+//const { hideBin } = require('yargs/helpers')
+const argv = yargs(process.argv).argv;
+// const argv = yargs(hideBin(process.argv)).argv
+
+var useBaseDirName =  false;
+if (argv.c || argv.cd) useBaseDirName = true;
+var showHelp = false;
+if (argv.h || argv.help ) showHelp = true;
+
 //Init vars
 var target_file ="";
 var target_file_name_only ="";
@@ -38,24 +48,26 @@ var appStartMessage =
 By Guillaume Descoteaux-Isabelle, 2020-2021
 version 0.2.38
 ----------------------------------------`;
-if (myArgs == null  || !myArgs[0] || myArgs[0] == "--help")
+if (myArgs == null  || showHelp)
 {
   console.log(`
-${appStartMessage}
+  ${appStartMessage}
   
   # Execute in the current directory of images you want contact sheet to be
-  gis-csm ([TARGET FILE]) (--label)
+  gis-csm [-c|-f [TARGET FILE]] (--label --verbose)
   --label   extract checkpoint label from filename
-
+  
   ## Example:
-
-  gis-csm ../mycontactsheet.jpg  #target file
+  
+  gis-csm -f ../mycontactsheet.jpg  #target file
   pwd
   /tmp/myimagedata
-  gis-csm                         #Will be ../_myimagedata.csm.jpg
+  gis-csm -c                        #Will be ../_myimagedata.csm.jpg
+  
+  gis-csm -c --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
+  # will extract 285 and add that instead of filename
 
-  gis-csm   # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
-            # will extract 285 and add that instead of filename
+  --verbose   # I let you guest what it does ;)
   ----------------------------------------------------------------
   `);
   process.exit(0);
@@ -63,27 +75,23 @@ ${appStartMessage}
 
 //-----------------------------VERBOSE
 var v = false;
-if (myArgs && (myArgs[0] || myArgs[1]|| myArgs[2]) 
-  &&
-  (myArgs[0] == "--verbose" || myArgs[1] == "--verbose"  )
-  || myArgs[2] == "--verbose"  )  v=true;
+if (argv.v || argv.verbose )  v=true;
 
 vb(appStartMessage,"","","");
 vb("VERBOSE IS ON");
 //process.exit(1);
 
 var l = false;
-if (myArgs && (myArgs[0] || myArgs[1]|| myArgs[2]) &&(myArgs[0] == "--label" || myArgs[1] == "--label"|| myArgs[2] == "--label"  ) )l=true;
+if (argv.l || argv.label || argv.chk || argv.checkpoint) l = true;
 if (l) vb("LABEL MODE IS ON");
 
+var filein = (argv.f || argv.file);
+
 //Use the first arguments as file if not BASEDIRNAME
-if (myArgs && (myArgs[0] != "--c" ||  myArgs[0] != "--cd" || myArgs[0] != "-c")
-   &&
-     (myArgs[0] != "--verbose" && myArgs[0] != "--label" )
-)
+if (filein)
 {
   //@a We have specified an output file for the CS
-  target_file = myArgs[0];  
+  target_file = filein;
   vb("FILE WAS SPECIFIED: " + target_file);
   // console.log(target_dir);
 }
@@ -110,7 +118,7 @@ target_dir = path.dirname(target_file);
 // console.log(target_file);
 // console.log(target_dir);
 // console.log(target_file_name_only);
-process.exit(0);
+//process.exit(0);
 
 if (os == "win32") {
   //running context will use Powershell to run docker

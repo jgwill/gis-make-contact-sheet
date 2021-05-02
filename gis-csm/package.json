@@ -1,6 +1,6 @@
 {
   "name": "gis-csm",
-  "version": "0.2.36",
+  "version": "0.2.37",
   "description": "CLI wrapper for Contact sheet maker using containerized infrastructure",
   "main": "csm",
   "scripts": {
@@ -27,6 +27,7 @@
   "homepage": "https://github.com/jgwill/gis-make-contact-sheet#readme",
   "dependencies": {
     "node-cmd": "^4.0.0",
-    "node-powershell": "^4.0.0"
+    "node-powershell": "^4.0.0",
+    "yargs": "^16.2.0"
   }
 }
