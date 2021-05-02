@@ -37,7 +37,7 @@ if (myArgs && myArgs[0] == "--help")
   console.log(`
   Multi platform Contact Sheet maker
   By Guillaume Descoteaux-Isabelle, 2020
-  version 0.1.28
+  version 0.1.29
   ----------------------------------------
   
   # Execute in the current directory of images you want contact sheet to be
@@ -75,9 +75,9 @@ else
 target_file_name_only = path.basename(target_file);
 target_dir = path.dirname(target_file);
 
-console.log(target_file);
-console.log(target_dir);
-console.log(target_file_name_only);
+// console.log(target_file);
+// console.log(target_dir);
+// console.log(target_file_name_only);
 //process.exit(0);
 
 if (os == "win32") {
