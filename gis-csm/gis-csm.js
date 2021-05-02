@@ -12,6 +12,7 @@ var mount_out = "/out";
 
 var os = process.platform;
 
+//console.log("__dirname:" + __dirname);
 
 
 var path = require('path');
@@ -22,7 +23,13 @@ var target_file ="";
 var target_file_name_only ="";
 var target_dir = "";
 
-var myArgs = process.argv.slice(2);
+var myArgs = null;
+try {
+  myArgs = process.argv.slice(2);
+  
+} catch (error) {
+  
+}
 
 
 if (myArgs && myArgs[0] == "--help")
@@ -48,7 +55,7 @@ if (myArgs && myArgs[0] == "--help")
 }
 
 //Use the first arguments as
-if (myArgs[0])
+if (myArgs && myArgs[0])
 {
   //@a We have specified an output file for the CS
   target_file = myArgs[0];
@@ -57,8 +64,8 @@ if (myArgs[0])
 else
 {
   //@status We assume a one level file with the name of this folder will be created
-  console.log("__dirname:" + __dirname);
-  var cdir = __dirname;
+  
+  var cdir = process.cwd();
   var cdirBasename = path.basename(cdir);
   target_file =  "../" + preFix + cdirBasename + sufFix + ext ;
   //@STCGoal That we have a file in ../_$basedir.csm.jpg created if noargs.
