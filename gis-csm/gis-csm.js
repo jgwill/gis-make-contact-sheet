@@ -20,60 +20,83 @@ var path = require('path');
 var fs = require('fs');
 var resolve = path.resolve;
 
-const yargs = require('yargs');
-//const { hideBin } = require('yargs/helpers')
-//const argv =
- yargs(process.argv)
-    .command('serve [port]', 'start the server', (yargs) => {
-      yargs
-        .positional('port', {
-          describe: 'port to bind on',
-          default: 5000
-        })
-    }, (argv) => {
-      if (argv.verbose) console.info(`start server on :${argv.port}`)
-      //serve(argv.port)
-      console.log("test");
-    })
-    .option('verbose', {
-      alias: 'v',
-      type: 'boolean',
-      description: 'Run with verbose logging'
-    })
-.argv;
-process.exit(1);
-// const argv = yargs(hideBin(process.argv)).argv
-
-var useBaseDirName =  false;
-if (argv.c || argv.cd) useBaseDirName = true;
-var showHelp = false;
-if (argv.h || argv.help ) showHelp = true;
-
-//Init vars
-var target_file ="";
-var target_file_name_only ="";
-var target_dir = "";
-
-var myArgs = null;
-try {
-  myArgs = process.argv.slice(2);
-  
-} catch (error) {
-  
-}
 
 var appStartMessage = 
 `Multi platform Contact Sheet maker
 By Guillaume Descoteaux-Isabelle, 2020-2021
 version 0.2.39
 ----------------------------------------`;
-if (myArgs == null  || showHelp)
-{
-  console.log(`
+const yargs = require('yargs');
+//const { argv } = require('process');
+//const { hideBin } = require('yargs/helpers')
+const argv = yargs(process.argv)
+
+.scriptName("gis-csm")
+.usage(appStartMessage)
+    // .command('serve [port]', 'start the server', (yargs) => {
+    //   yargs
+    //     .positional('f', {
+    //       describe: 'port to bind on',
+    //       type:'string',
+    //       default: 5000
+    //     })
+    // }, (argv) => {
+    //   if (argv.verbose) console.info(`start server on :${argv.port}`)
+    //   //serve(argv.port)
+    //   console.log("test");
+    //   console.info(`start server on :${argv.port}`)
+    // })
+    .option('file', {
+      alias: 'f',
+      type: 'string',
+      description: 'Specify the file out'
+    })
+    .option('directory', {
+      alias: 'd',
+      type: 'boolean',
+      default:false,
+      description: 'Name the output using current Basedirname'
+    }).usage(`gis-csm -d --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
+    # will extract 285 and add that instead of filename`)
+    .option('verbose', {
+      alias: 'v',
+      default:false,
+      type: 'boolean',
+      description: 'Run with verbose logging'
+    })
+    .option('label', {
+      alias: 'l',
+      type: 'boolean',
+      default:false,
+      description: 'Label using last digit in filename (used for parsing inference result that contain checkpoint number)'
+    })
+  .argv;
+
+if (argv.directory && argv.file) 
+{console.log("Can not use --file and --directory together");
+    process.exit(1);
+}
+
+// console.log(argv.file)
+// console.log(argv.directory?"using Directory":"")
+// console.log(argv.label)
+// console.log(argv.verbose)
+// process.exit(1);
+// const argv = yargs(hideBin(process.argv)).argv
+
+
+//Init vars
+var target_file ="";
+var target_file_name_only ="";
+var target_dir = "";
+//process.exit(1);
+
+//For later maybe but Yargs is acceptable
+var more = `
   ${appStartMessage}
   
   # Execute in the current directory of images you want contact sheet to be
-  gis-csm [-c|-f [TARGET FILE]] (--label --verbose)
+  gis-csm [-d|-f [TARGET FILE]] (--label --verbose)
   --label   extract checkpoint label from filename
   
   ## Example:
@@ -81,30 +104,28 @@ if (myArgs == null  || showHelp)
   gis-csm -f ../mycontactsheet.jpg  #target file
   pwd
   /tmp/myimagedata
-  gis-csm -c                        #Will be ../_myimagedata.csm.jpg
+  gis-csm -d                        #Will be ../_myimagedata.csm.jpg
   
-  gis-csm -c --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
+  gis-csm -d --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
   # will extract 285 and add that instead of filename
 
   --verbose   # I let you guest what it does ;)
   ----------------------------------------------------------------
-  `);
-  process.exit(0);
-}
+  `;
+  
 
 //-----------------------------VERBOSE
-var v = false;
-if (argv.v || argv.verbose )  v=true;
+var v = argv.verbose; 
 
 vb(appStartMessage,"","","");
 vb("VERBOSE IS ON");
 //process.exit(1);
 
-var l = false;
-if (argv.l || argv.label || argv.chk || argv.checkpoint) l = true;
+var l = argv.label;
+
 if (l) vb("LABEL MODE IS ON");
 
-var filein = (argv.f || argv.file);
+var filein =  argv.file?argv.file:null;
 
 //Use the first arguments as file if not BASEDIRNAME
 if (filein)
@@ -114,7 +135,7 @@ if (filein)
   vb("FILE WAS SPECIFIED: " + target_file);
   // console.log(target_dir);
 }
-else
+else if (argv.directory)
 {
   //@status We assume a one level file with the name of this folder will be created
   vbl();
@@ -127,6 +148,9 @@ else
   target_file =  "../" + preFix + cdirBasename + sufFix + ext ;
   //@STCGoal That we have a file in ../_$basedir.csm.jpg created if noargs.
   
+} else {
+  console.log("Migt want to use --directory (-d)");
+  process.exit(1);
 }
 
 vb("target_file:" + target_file);
@@ -137,7 +161,8 @@ target_dir = path.dirname(target_file);
 // console.log(target_file);
 // console.log(target_dir);
 // console.log(target_file_name_only);
-process.exit(0);
+// process.exit(1);
+// process.exit(0);
 
 if (os == "win32") {
   //running context will use Powershell to run docker
