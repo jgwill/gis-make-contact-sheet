@@ -35,10 +35,14 @@ if [ "$2" != "" ];then
          tmpstring="${tmpstring/$replacerstr/$secondString}"
          replacerstr="m"
          tmpstring="${tmpstring/$replacerstr/$secondString}"
-
+         #padding tree zero
+         tmpstring=`printf %03d $tmpstring`
          
          label=$tmpstring
-         tfile=$c'__'$label'.jpg'
+         cc=`printf %03d $c`
+         tfile=$cc'__'$label'.jpg'
+         tfile=$label'.jpg'
+         tfile=$label
          echo "Resized: $tmpstring  : $tfile" >> log.csm.txt
 
          convert -geometry 200x -auto-orient $i ../$wdir/$tfile #@state image is resized in $wdir
@@ -49,16 +53,30 @@ if [ "$2" != "" ];then
    echo "---$wdir content: ">> input/log.csm.txt
    ls $wdir >> input/log.csm.txt
    echo "-----------DONE RESIZE----$(date)-----------">> input/log.csm.txt
-
    fn=$1
    fnb=${fn%.*}
    export out=$fnb'.l.jpg'
 
+
+   #exit 0
+   echo montage -verbose -label '%f' -font Helvetica -pointsize 11 -background '#000000' -fill 'gray' -define jpeg:size=200x200 -geometry 200x200+2+2 -auto-orient $wdir/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$out >> input/log.csm.txt
+
+   montage -verbose -label '%f' -font Helvetica -pointsize 11 -background '#000000' -fill 'gray' -define jpeg:size=200x200 -geometry 200x200+2+2 -auto-orient $wdir/* /out/$out
+   # montage -verbose -label '%f' -font Helvetica -pointsize 11 -background '#000000' -fill 'gray' -define jpeg:size=200x200 -geometry 200x200+2+2 -auto-orient $wdir/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$out
+
+   # Keeping the TN
+   cd $wdir 
+   for f in * # Give them back their JPG name from previous labeling workaround
+      do
+         mv $f $f'.jpg'
+      done
+
+   cd ..
+   cp -r $wdir input #Temp to test listing in order
+
+   echo "--------ALL DONE------$(date)------------">> input/log.csm.txt
+else
+   montage -verbose -label $label -font Helvetica -pointsize 10 -background '#000000' -fill 'gray' -define jpeg:size=200x200 -geometry 200x200+2+2 -auto-orient input/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$1
 fi
-#exit 0
-echo montage -verbose -label '%f' -font Helvetica -pointsize 11 -background '#000000' -fill 'gray' -define jpeg:size=200x200 -geometry 200x200+2+2 -auto-orient $wdir/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$out >> input/log.csm.txt
 
-montage -verbose -label '%f' -font Helvetica -pointsize 11 -background '#000000' -fill 'gray' -define jpeg:size=200x200 -geometry 200x200+2+2 -auto-orient $wdir/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$out
-
-echo "--------ALL DONE------$(date)------------">> input/log.csm.txt
 # montage -verbose -label $label -font Helvetica -pointsize 10 -background '#000000' -fill 'gray' -define jpeg:size=200x200 -geometry 200x200+2+2 -auto-orient input/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$1
