@@ -12,10 +12,12 @@ var mount_out = "/out";
 
 var os = process.platform;
 
+const { fstat } = require('fs');
 //console.log("__dirname:" + __dirname);
 
 
 var path = require('path');
+var fs = require('fs');
 var resolve = path.resolve;
 
 //Init vars
@@ -34,7 +36,7 @@ try {
 var appStartMessage = 
 `Multi platform Contact Sheet maker
 By Guillaume Descoteaux-Isabelle, 2020
-version 0.1.32
+version 0.1.33
 ----------------------------------------`;
 if (myArgs && myArgs[0] == "--help")
 {
@@ -71,24 +73,31 @@ if (myArgs && (myArgs[0] || myArgs[1]) &&(myArgs[0] == "--label" || myArgs[1] ==
 if (l) vb("LABEL MODE IS ON");
 
 //Use the first arguments as
-if (myArgs && (myArgs[0] != "--verbose" && myArgs[0] != "--label" ))
+if (myArgs &&
+     (myArgs[0] != "--verbose" && myArgs[0] != "--label" )
+)
 {
   //@a We have specified an output file for the CS
-  target_file = myArgs[0];
+  target_file = myArgs[0];  
   // console.log(target_dir);
 }
 else
 {
   //@status We assume a one level file with the name of this folder will be created
+  vbl();
+  vb("USING DIR BASENAME TO GENERATE FILE");
+  // var cdir = process.cwd();
+  var cdirResolved = path.resolve(".");
+  var cdirBasename = path.basename(cdirResolved);
   
-  var cdir = process.cwd();
-  var cdirBasename = path.basename(cdir);
+  vb("Basename is: " + cdirBasename);
   target_file =  "../" + preFix + cdirBasename + sufFix + ext ;
-  vb("target_file" + target_file);
   //@STCGoal That we have a file in ../_$basedir.csm.jpg created if noargs.
   
 }
 
+vb("target_file:" + target_file);
+//process.exit(1);
 target_file_name_only = path.basename(target_file);
 target_dir = path.dirname(target_file);
 
@@ -218,4 +227,8 @@ else {
 
 function vb(log,b4Log=" ",prefix="----",separator=" : "){
   if (v) console.log(prefix +b4Log+ separator+ log);
+}
+
+function vbl(name="-------"){
+  if (v) console.log(`------------------${name}----------------`);
 }
