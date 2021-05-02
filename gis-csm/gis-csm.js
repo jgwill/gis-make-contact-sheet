@@ -58,13 +58,16 @@ else
   var cdirBasename = path.basename(cdir);
   target_file =  "../" + preFix + cdirBasename + sufFix + ext ;
   //@STCGoal That we have a file in ../_$basedir.csm.jpg created if noargs.
-  //console.log(target_file);
-  //process.exit(0);
   
 }
 
 target_file_name_only = path.basename(target_file);
 target_dir = path.dirname(target_file);
+
+console.log(target_file);
+console.log(target_dir);
+console.log(target_file_name_only);
+//process.exit(0);
 
 if (os == "win32") {
   //running context will use Powershell to run docker
