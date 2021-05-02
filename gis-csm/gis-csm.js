@@ -34,7 +34,7 @@ try {
 var appStartMessage = 
 `Multi platform Contact Sheet maker
 By Guillaume Descoteaux-Isabelle, 2020
-version 0.1.30
+version 0.1.32
 ----------------------------------------`;
 if (myArgs && myArgs[0] == "--help")
 {
@@ -42,14 +42,18 @@ if (myArgs && myArgs[0] == "--help")
 ${appStartMessage}
   
   # Execute in the current directory of images you want contact sheet to be
-  gis-csm ([TARGET FILE]) optional
-  
+  gis-csm ([TARGET FILE]) (--label)
+  --label   extract checkpoint label from filename
+
   ## Example:
 
   gis-csm ../mycontactsheet.jpg  #target file
   pwd
   /tmp/myimagedata
   gis-csm                         #Will be ../_myimagedata.csm.jpg
+
+  gis-csm   # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
+            # will extract 285 and add that instead of filename
   ----------------------------------------------------------------
   `);
   process.exit(0);
@@ -62,8 +66,12 @@ vb(appStartMessage,"","","");
 vb("VERBOSE IS ON");
 //process.exit(1);
 
+var l = false;
+if (myArgs && (myArgs[0] || myArgs[1]) &&(myArgs[0] == "--label" || myArgs[1] == "--label"  ) )l=true;
+if (l) vb("LABEL MODE IS ON");
+
 //Use the first arguments as
-if (myArgs && myArgs[0])
+if (myArgs && (myArgs[0] != "--verbose" && myArgs[0] != "--label" ))
 {
   //@a We have specified an output file for the CS
   target_file = myArgs[0];
@@ -138,15 +146,19 @@ else {
     var arr = output.split("\n");
     var inPath = arr[0];
     var outPath = arr[1];
+    var callArgs = "";
     
+    if (l) callArgs+= " --label"; //Add call args label extraction
+
     var cmdToRun =
     `docker run -d -t --rm ` +
     `-v ${inPath.trim()}:${mount_in} ` +
     `-v ${outPath.trim()}:${mount_out}  ` +
     `${container_tag}  ` +
-    `${target_file_name_only}`;
+    `${target_file_name_only}` +
+    `${callArgs}`;
     
-    vb("Docker Commands ",cmdToRun);
+    vb("\nDocker Commands:\n\t ",cmdToRun + "\n");
     platform_run(cmdToRun);
     
   }
