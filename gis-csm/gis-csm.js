@@ -36,7 +36,7 @@ try {
 var appStartMessage = 
 `Multi platform Contact Sheet maker
 By Guillaume Descoteaux-Isabelle, 2020
-version 0.1.35
+version 0.1.36
 ----------------------------------------`;
 if (!myArgs || myArgs[0] == "--help")
 {
@@ -67,7 +67,7 @@ if (myArgs
   &&
   (myArgs[0] == "--verbose" || myArgs[1] == "--verbose"  )
   || myArgs[2] == "--verbose"  )  v=true;
-  
+
 vb(appStartMessage,"","","");
 vb("VERBOSE IS ON");
 //process.exit(1);
