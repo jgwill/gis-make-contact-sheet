@@ -57,7 +57,7 @@ const argv = yargs(process.argv)
     type: 'boolean',
     default: false,
     description: 'Name the output using current Basedirname'
-  }).usage(`gis-csm -d --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
+  }).usage(`gicsl-d --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
     # will extract 285 and add that instead of filename`)
   .option('verbose', {
     alias: 'v',
@@ -97,17 +97,17 @@ var more = `
   ${appStartMessage}
   
   # Execute in the current directory of images you want contact sheet to be
-  gis-csm [-d|-f [TARGET FILE]] (--label --verbose)
+  gicsl[-d|-f [TARGET FILE]] (--label --verbose)
   --label   extract checkpoint label from filename
   
   ## Example:
   
-  gis-csm -f ../mycontactsheet.jpg  #target file
+  gicsl-f ../mycontactsheet.jpg  #target file
   pwd
   /tmp/myimagedata
-  gis-csm -d                        #Will be ../_myimagedata.csm.jpg
+  gicsl-d                        #Will be ../_myimagedata.csm.jpg
   
-  gis-csm -d --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
+  gicsl-d --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
   # will extract 285 and add that instead of filename
 
   --verbose   # I let you guest what it does ;)
@@ -148,7 +148,9 @@ else if (argv.directory) {
   //@STCGoal That we have a file in ../_$basedir.csm.jpg created if noargs.
 
 } else {
-  console.log("DOHHHH\nMigt want to use --directory (-d)");
+  console.log(appStartMessage);
+  console.log("DOHHHH\nMigt want to use --directory (-d)"
+  + " \n or --help ;)");
   process.exit(1);
 }
 
