@@ -7,7 +7,8 @@
     "test": "node csm.js my_source_dir mycontact.jpg"
   },
   "bin": {
-    "gis-csm": "gis-csm.js"
+    "gis-csm": "gis-csm.js",
+    "gicsl": "gis-csm.js"
   },
   "repository": {
     "bugs": "https://github.com/jgwill/gis-make-contact-sheet/issues",

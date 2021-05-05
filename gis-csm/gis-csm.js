@@ -5,7 +5,7 @@
  * Current Reality:First testing
  */
 
-var preFix = "_";var sufFix = ".csm";var ext = ".jpg";
+var preFix = "_"; var sufFix = ".csm"; var ext = ".jpg";
 var container_tag = "jgwill/gis-csm";
 var mount_in = "/work/input";
 var mount_out = "/out";
@@ -23,8 +23,8 @@ var resolve = path.resolve;
 const yargs = require('yargs');
 var ver = yargs.version();
 
-var appStartMessage = 
-`Multi platform Contact Sheet maker
+var appStartMessage =
+  `Multi platform Contact Sheet maker
 By Guillaume Descoteaux-Isabelle, 2020-2021
 version ${ver}
 ----------------------------------------`;
@@ -32,50 +32,50 @@ version ${ver}
 //const { hideBin } = require('yargs/helpers')
 const argv = yargs(process.argv)
 
-.scriptName("gis-csm")
-.usage(appStartMessage)
-    // .command('serve [port]', 'start the server', (yargs) => {
-    //   yargs
-    //     .positional('f', {
-    //       describe: 'port to bind on',
-    //       type:'string',
-    //       default: 5000
-    //     })
-    // }, (argv) => {
-    //   if (argv.verbose) console.info(`start server on :${argv.port}`)
-    //   //serve(argv.port)
-    //   console.log("test");
-    //   console.info(`start server on :${argv.port}`)
-    // })
-    .option('file', {
-      alias: 'f',
-      type: 'string',
-      description: 'Specify the file out'
-    })
-    .option('directory', {
-      alias: 'd',
-      type: 'boolean',
-      default:false,
-      description: 'Name the output using current Basedirname'
-    }).usage(`gis-csm -d --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
+  .scriptName("gicsl")
+  .usage(appStartMessage)
+  // .command('serve [port]', 'start the server', (yargs) => {
+  //   yargs
+  //     .positional('f', {
+  //       describe: 'port to bind on',
+  //       type:'string',
+  //       default: 5000
+  //     })
+  // }, (argv) => {
+  //   if (argv.verbose) console.info(`start server on :${argv.port}`)
+  //   //serve(argv.port)
+  //   console.log("test");
+  //   console.info(`start server on :${argv.port}`)
+  // })
+  .option('file', {
+    alias: 'f',
+    type: 'string',
+    description: 'Specify the file out'
+  })
+  .option('directory', {
+    alias: 'd',
+    type: 'boolean',
+    default: false,
+    description: 'Name the output using current Basedirname'
+  }).usage(`gis-csm -d --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
     # will extract 285 and add that instead of filename`)
-    .option('verbose', {
-      alias: 'v',
-      default:false,
-      type: 'boolean',
-      description: 'Run with verbose logging'
-    })
-    .option('label', {
-      alias: 'l',
-      type: 'boolean',
-      default:false,
-      description: 'Label using last digit in filename (used for parsing inference result that contain checkpoint number)'
-    })
+  .option('verbose', {
+    alias: 'v',
+    default: false,
+    type: 'boolean',
+    description: 'Run with verbose logging'
+  })
+  .option('label', {
+    alias: 'l',
+    type: 'boolean',
+    default: false,
+    description: 'Label using last digit in filename (used for parsing inference result that contain checkpoint number)'
+  })
   .argv;
 
-if (argv.directory && argv.file) 
-{console.log("Can not use --file and --directory together");
-    process.exit(1);
+if (argv.directory && argv.file) {
+  console.log("Can not use --file and --directory together");
+  process.exit(1);
 }
 
 // console.log(argv.file)
@@ -87,8 +87,8 @@ if (argv.directory && argv.file)
 
 
 //Init vars
-var target_file ="";
-var target_file_name_only ="";
+var target_file = "";
+var target_file_name_only = "";
 var target_dir = "";
 //process.exit(1);
 
@@ -113,12 +113,12 @@ var more = `
   --verbose   # I let you guest what it does ;)
   ----------------------------------------------------------------
   `;
-  
+
 
 //-----------------------------VERBOSE
-var v = argv.verbose; 
+var v = argv.verbose;
 
-vb(appStartMessage,"","","");
+vb(appStartMessage, "", "", "");
 vb("VERBOSE IS ON");
 //process.exit(1);
 
@@ -126,31 +126,29 @@ var l = argv.label;
 
 if (l) vb("LABEL MODE IS ON");
 
-var filein =  argv.file?argv.file:null;
+var filein = argv.file ? argv.file : null;
 
 //Use the first arguments as file if not BASEDIRNAME
-if (filein)
-{
+if (filein) {
   //@a We have specified an output file for the CS
   target_file = filein;
   vb("FILE WAS SPECIFIED: " + target_file);
   // console.log(target_dir);
 }
-else if (argv.directory)
-{
+else if (argv.directory) {
   //@status We assume a one level file with the name of this folder will be created
   vbl();
   vb("USING DIR BASENAME TO GENERATE FILE");
   // var cdir = process.cwd();
   var cdirResolved = path.resolve(".");
   var cdirBasename = path.basename(cdirResolved);
-  
+
   vb("Basename is: " + cdirBasename);
-  target_file =  "../" + preFix + cdirBasename + sufFix + ext ;
+  target_file = "../" + preFix + cdirBasename + sufFix + ext;
   //@STCGoal That we have a file in ../_$basedir.csm.jpg created if noargs.
-  
+
 } else {
-  console.log("Migt want to use --directory (-d)");
+  console.log("DOHHHH\nMigt want to use --directory (-d)");
   process.exit(1);
 }
 
@@ -168,30 +166,30 @@ target_dir = path.dirname(target_file);
 if (os == "win32") {
   //running context will use Powershell to run docker
   const Shell = require('node-powershell');
-  
+
   const ps = new Shell({
     executionPolicy: 'Bypass',
     noProfile: true
   });
-  
+
   ps.addCommand(`$in = \${PWD}.path;$out = Resolve-Path ${target_dir};echo "$in";"$out"`);
-  
+
   ps.invoke()
-  .then(output => {
-    //console.log(output);
-    
-    make_docker_cmd(output);
-  })
-  .catch(err => {
-    console.log(err);
-  });
+    .then(output => {
+      //console.log(output);
+
+      make_docker_cmd(output);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 }
 else {
   //we assume linux
   var cmd = require('node-cmd');
-  
+
   //*nix supports multiline commands
-  
+
   // cwd = cmd.runSync('echo "$(pwd)"');
   // outputting(cwd);
   cmd.run(
@@ -200,94 +198,105 @@ else {
       // console.log(data);
       make_docker_cmd(data);
     }
-    );
-    
-  }
-  
-  
-  /**
-   * Make a docker container command from input system dir and target dir prepared for the required platform path token (slash or backslash, why do windows choose backslash, anyway ?? to make us code this..nahh)
-   * By Guillaume Descoteaux-Isabelle, 2020
-   * @param {*} output 
-   */
-  function make_docker_cmd(output) {
-    var arr = output.split("\n");
-    var inPath = arr[0];
-    var outPath = arr[1];
-    var callArgs = "";
-    
-    if (l) callArgs+= " --label"; //Add call args label extraction
+  );
 
-    var cmdToRun =
+}
+
+
+/**
+ * Make a docker container command from input system dir and target dir prepared for the required platform path token (slash or backslash, why do windows choose backslash, anyway ?? to make us code this..nahh)
+ * By Guillaume Descoteaux-Isabelle, 2020
+ * @param {*} output 
+ */
+function make_docker_cmd(output) {
+  var arr = output.split("\n");
+  var inPath = arr[0];
+  var outPath = arr[1];
+  var callArgs = "";
+
+  if (l) callArgs += " --label"; //Add call args label extraction
+
+  var cmdToRun =
     `docker run -d -t --rm ` +
     `-v ${inPath.trim()}:${mount_in} ` +
     `-v ${outPath.trim()}:${mount_out}  ` +
     `${container_tag}  ` +
     `${target_file_name_only}` +
     `${callArgs}`;
-    
-    vb("\nDocker Commands:\n\t ",cmdToRun + "\n");
-    platform_run(cmdToRun);
-    
-  }
-  
-  /**
-   * Run a command on the platform context using node-cmd or node-powershell basically makes running commands compatible with windows.
-   * by Guillaume Descoteaux-Isabelle, 2020
-   * @param {*} cmdToRun 
-   */
-  function platform_run(cmdToRun) {
-    
-    console.log("Running: " + cmdToRun);
-    console.log("  on platform: " + os);
-    
-    if (os == "win32") {
-      vb("Windows system detected");
-      //running context will use Powershell to run docker
-      const Shell = require('node-powershell');
-      
-      const ps = new Shell({
-        executionPolicy: 'Bypass',
-        noProfile: true
-      });
-      
-      ps.addCommand(cmdToRun);
-      ps.invoke()
+
+  vb("\nDocker Commands:\n\t ", cmdToRun + "\n");
+  platform_run(cmdToRun);
+
+}
+
+const specialMessageForWindowsIssues = `
+--------------Windows Issue WARNING------------
+--:s                                        ---  
+-----------You can press CTRL+C twice to break-
+-----------back to terminal at any time       -
+-----------and the process will continue in BG-          
+-----------------------------------------------
+`;
+
+/**
+ * Run a command on the platform context using node-cmd or node-powershell basically makes running commands compatible with windows.
+ * by Guillaume Descoteaux-Isabelle, 2020
+ * @param {*} cmdToRun 
+ */
+function platform_run(cmdToRun) {
+
+  vb("Running: " + cmdToRun);
+  vb("  on platform: " + os);
+
+  if (os == "win32") {
+    vb("Windows system detected");
+    //running context will use Powershell to run docker
+    const Shell = require('node-powershell');
+
+    const ps = new Shell({
+      executionPolicy: 'Bypass',
+      noProfile: true
+    });
+
+    ps.addCommand(cmdToRun);
+    ps.invoke()
       .then(output => {
         console.log(output);
-        console.log("--Win32 Issue:  You can press CTRL+C to break back to terminal at any time");
+        console.log(specialMessageForWindowsIssues);
       })
       .catch(err => {
         console.log(err);
       });
-    }
-    else {
-      vb("Non windows os detected");
-      //we assume linux
-      var cmd = require('node-cmd');
-      
-      cmd.run(
-        cmdToRun,
-        function (err, data, stderr) {
-          if (err) console.log(err);
-          if (stderr) console.log(stderr);
-          console.log(data);
-          
-        }
-        );
-        
-      }
-      
-      console.log(`---------------------------
-      Container is working in background and will stop when done :)`);
-      console.log(` your result will be : ${target_file}
-      ---------------------------------------`);
-    }
+  }
+  else {
+    vb("Non windows os detected");
+    //we assume linux
+    var cmd = require('node-cmd');
 
-function vb(log,b4Log=" ",prefix="----",separator=" : "){
-  if (v) console.log(prefix +b4Log+ separator+ log);
+    cmd.run(
+      cmdToRun,
+      function (err, data, stderr) {
+        if (stderr) console.log(stderr);
+        if (err) console.log(err);
+        else {
+          console.log(data);
+          console.log(`---------------------------
+          Container is working in background and will stop when done :)`);
+          console.log(` your result will be : ${target_file}
+          ---------------------------------------`);
+        }
+
+      }
+    );
+
+  }
+
 }
 
-function vbl(name="-------"){
+function vb(log, b4Log = " ", prefix = "----", separator = " : ") {
+  if (v) console.log(prefix + b4Log + separator + log);
+}
+
+function vbl(name = "-------") {
   if (v) console.log(`------------------${name}----------------`);
 }
