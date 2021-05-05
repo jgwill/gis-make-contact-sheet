@@ -3,6 +3,9 @@
 Making a contact sheet and adapt to Operating system context.
 
 # Usage
+
+>Other alias : gicsl
+
 ## Run from directory where all your files are
 ```sh
 gis-csm -f ../mycontactsheet.jpg #specify target image
