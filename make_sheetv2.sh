@@ -18,6 +18,7 @@ if [ "$2" != "" ];then
    c=0
    for i in *.{jpg,JPG,png,PNG,bmp,BMP}
       do
+         echo "Processing:---$i------" >> input/log.csm.txt
          #@a Construct custom label with the last segment __$ckp.jpg
          # /x__Unsupervised_Segmentation__2011030205__1k_vm_s01-v01_768x___285k.jpg
          # we want :   285
@@ -37,6 +38,7 @@ if [ "$2" != "" ];then
          tmpstring="${tmpstring/$replacerstr/$secondString}"
          #padding tree zero
          tmpstring=`printf %03d $tmpstring`
+         #echo "DEBUG:STRING:tmpstring=$tmpstring" >> input/log.csm.txt
          
          label=$tmpstring
          cc=`printf %03d $c`
@@ -45,7 +47,8 @@ if [ "$2" != "" ];then
          tfile=$label
          echo "Resized: $tmpstring  : $tfile" >> log.csm.txt
 
-         convert -geometry 200x -auto-orient $i ../$wdir/$tfile #@state image is resized in $wdir
+         convert -geometry 200x -auto-orient $i ../$wdir/$tfile
+         #@state image is resized in $wdir
 
          c=$( expr $c + 1 )
       done
@@ -80,3 +83,6 @@ else
 fi
 
 # montage -verbose -label $label -font Helvetica -pointsize 10 -background '#000000' -fill 'gray' -define jpeg:size=200x200 -geometry 200x200+2+2 -auto-orient input/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$1
+
+
+sleep 5

@@ -102,12 +102,12 @@ var more = `
   
   ## Example:
   
-  gicsl-f ../mycontactsheet.jpg  #target file
+  gicsl -f ../mycontactsheet.jpg  #target file
   pwd
   /tmp/myimagedata
   gicsl-d                        #Will be ../_myimagedata.csm.jpg
   
-  gicsl-d --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
+  gicsl -d --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
   # will extract 285 and add that instead of filename
 
   --verbose   # I let you guest what it does ;)
