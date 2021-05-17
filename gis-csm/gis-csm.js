@@ -294,26 +294,26 @@ function platform_run(cmdToRun) {
 
         if (feh) {
           if (!process.env.feh) console.log("WARNING - It might not work, think of settin env var :  export feh=\"myviewer args\" \n");
-           
-          console.log("-- Result will open pretty soon----\n-------------------------------");
-          //@a OPEN THE RESULT
-          var fehCMD = `${fehExec} ${targetOutput}  `;
-          var fullCMD = `(sleep 2;echo "opening image result soon";sleep 5;${fehCMD})&`;
+          else {
+            console.log("-- Result will open pretty soon----\n-------------------------------");
+            //@a OPEN THE RESULT
+            var fehCMD = `${fehExec} ${targetOutput}  `;
+            var fullCMD = `(sleep 2;echo "opening image result soon";sleep 5;${fehCMD})&`;
 
-          const ps2 = new Shell({
-            executionPolicy: 'Bypass',
-            noProfile: true
-          });
+            const ps2 = new Shell({
+              executionPolicy: 'Bypass',
+              noProfile: true
+            });
 
-          ps2.addCommand(fehCMD);
-          ps2.invoke()
-            .then(output2 => {
-              console.log(output2);
-              console.log("We should be viewing it now...or pretty soon");
-              
-            }
-            );
+            ps2.addCommand(fehCMD);
+            ps2.invoke()
+              .then(output2 => {
+                console.log(output2);
+                console.log("We should be viewing it now...or pretty soon");
 
+              }
+              );
+          }
         }
 
       })
