@@ -139,6 +139,8 @@ var l = argv.label;
 var noclean = argv.noclean;
 
 var feh = argv.feh;
+var fehExec = "feh -F "; //Def the process opening the image if -feh is used (might be diff on other platform)
+if (process.env.feh) fehExec = process.env.feh;
 
 if (l) vb("LABEL MODE IS ON");
 
@@ -220,7 +222,7 @@ else {
 
 }
 
-
+var targetOutput = "";
 /**
  * Make a docker container command from input system dir and target dir prepared for the required platform path token (slash or backslash, why do windows choose backslash, anyway ?? to make us code this..nahh)
  * By Guillaume Descoteaux-Isabelle, 2020
@@ -230,6 +232,7 @@ function make_docker_cmd_Then_RUN(output) {
   var arr = output.split("\n");
   var inPath = arr[0];
   var outPath = arr[1];
+  targetOutput = outPath;
   var callArgs = "";
 
   if (l) {
@@ -287,6 +290,8 @@ function platform_run(cmdToRun) {
       .then(output => {
         console.log(output);
         console.log(specialMessageForWindowsIssues);
+        if (feh) console.log("--feh not implemented on windows yet");
+
       })
       .catch(err => {
         console.log(err);
@@ -308,6 +313,22 @@ function platform_run(cmdToRun) {
           Container is working in background and will stop when done :)`);
           console.log(` your result will be : ${target_file}
           ---------------------------------------`);
+          if (feh)
+          {
+            console.log("-- Result will open pretty soon----\n-------------------------------");
+            //@a OPEN THE RESULT
+            var fehCMD = `${fehExec} ${targetOutput}  `;
+            var fullCMD = `(sleep 2;echo "opening image result soon";sleep 5;${fehCMD})&`;
+            cmd.run(fullCMD,function (err, data, stderr) {
+              if (stderr) console.log(stderr);
+              if (err) console.log(err);
+              else {
+                  console.log("We should be viewing it now...or pretty soon");
+                  console.log(data);
+              }
+            }             );
+
+          }
         }
 
       }
