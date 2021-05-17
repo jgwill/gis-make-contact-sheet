@@ -168,7 +168,7 @@ else if (argv.directory) {
 } else {
   console.log(appStartMessage);
   console.log("DOHHHH\nMigt want to use --directory (-d)"
-  + " \n or --help ;)");
+    + " \n or --help ;)");
   process.exit(1);
 }
 
@@ -236,13 +236,13 @@ function make_docker_cmd_Then_RUN(output) {
   var callArgs = "";
 
   if (l) {
-  callArgs += " --label"; //Add call args label extraction
-  vb("--label was used");
+    callArgs += " --label"; //Add call args label extraction
+    vb("--label was used");
   }
-  if (noclean){
-   callArgs += " --noclean"; //Add call args noclean
-   vb("--noclean was used");
-}
+  if (noclean) {
+    callArgs += " --noclean"; //Add call args noclean
+    vb("--noclean was used");
+  }
   var cmdToRun =
     `docker run -d -t --rm ` +
     `-v ${inPath.trim()}:${mount_in} ` +
@@ -292,6 +292,30 @@ function platform_run(cmdToRun) {
         console.log(specialMessageForWindowsIssues);
         if (feh) console.log("--feh not implemented on windows yet");
 
+        if (feh) {
+          if (!process.env.feh) console.log("WARNING - It might not work, think of settin env var :  export feh=\"myviewer args\" \n");
+           
+          console.log("-- Result will open pretty soon----\n-------------------------------");
+          //@a OPEN THE RESULT
+          var fehCMD = `${fehExec} ${targetOutput}  `;
+          var fullCMD = `(sleep 2;echo "opening image result soon";sleep 5;${fehCMD})&`;
+
+          const ps2 = new Shell({
+            executionPolicy: 'Bypass',
+            noProfile: true
+          });
+
+          ps2.addCommand(fehCMD);
+          ps2.invoke()
+            .then(output2 => {
+              console.log(output2);
+              console.log("We should be viewing it now...or pretty soon");
+              
+            }
+            );
+
+        }
+
       })
       .catch(err => {
         console.log(err);
@@ -313,20 +337,19 @@ function platform_run(cmdToRun) {
           Container is working in background and will stop when done :)`);
           console.log(` your result will be : ${target_file}
           ---------------------------------------`);
-          if (feh)
-          {
+          if (feh) {
             console.log("-- Result will open pretty soon----\n-------------------------------");
             //@a OPEN THE RESULT
             var fehCMD = `${fehExec} ${targetOutput}  `;
             var fullCMD = `(sleep 2;echo "opening image result soon";sleep 5;${fehCMD})&`;
-            cmd.run(fullCMD,function (err, data, stderr) {
+            cmd.run(fullCMD, function (err, data, stderr) {
               if (stderr) console.log(stderr);
               if (err) console.log(err);
               else {
-                  console.log("We should be viewing it now...or pretty soon");
-                  console.log(data);
+                console.log("We should be viewing it now...or pretty soon");
+                console.log(data);
               }
-            }             );
+            });
 
           }
         }
