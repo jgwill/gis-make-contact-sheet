@@ -2,16 +2,16 @@
 
 #@STCGoal ADD Feature Custom Label that is a Checkpoint.
 export out=$1
-export tngeo=200
+export tngeo=250
 export tngeox=$tngeo'x'
 logfile=/work/input/log.csm.txt
 label='%f'
 echo "-----------DEBUG--------$(date)--------"
 sleep 1
-ls /out
-pwd
-df -h /out
-df -h /work/input
+# ls /out
+# pwd
+# df -h /out
+# df -h /work/input
 
 wdir=/work/build
 
@@ -28,11 +28,11 @@ if [ "$2" != "" ];then
    #@a Loop foreach in input/*.{jpg,JPG,png,PNG,bmp,BMP} and create thumbnails in $wdir
    cd /work/input
    c=0
-   echo "----" > /out/tmpls.txt
+  #echo "----" > /out/tmpls.txt
 
    for i in *.{jpg,JPG,png,PNG,bmp,BMP} ; do
       if [ -f "$i" ]; then
-         echo "$i" >> /out/tmpls.txt
+         #echo "$i" >> /out/tmpls.txt
          echo "Processing:---$i------" >> $logfile
          #@a Construct custom label with the last segment __$ckp.jpg
          # /x__Unsupervised_Segmentation__2011030205__1k_vm_s01-v01_768x___285k.jpg
@@ -65,24 +65,24 @@ if [ "$2" != "" ];then
          tfile=$cc'__'$label'.jpg'
          tfile=$label'.jpg'
          tfile=$label
-         echo "Resized: $tmpstring  : $tfile" >> log.csm.txt
+         echo "Resized: $tmpstring  : $tfile" >> $logfile
 
-         echo convert -geometry $tngeox -auto-orient $i $wdir/$tfile>> /out/tmpls.txt
+         #echo convert -geometry $tngeox -auto-orient $i $wdir/$tfile>> /out/tmpls.txt
          convert -geometry $tngeox -auto-orient $i $wdir/$tfile
-         echo "---just converted to  $wdir/$tfile" >> /out/tmpls.txt
+         #echo "---just converted to  $wdir/$tfile" >> /out/tmpls.txt
          #echo "../wdir/tfile=../$wdir/$tfile">> log.csm.txt
          #@state image is resized in $wdir
 
          c=$( expr $c + 1 )
       fi
    done
-   echo "---just done loop: ls  $wdir" >> /out/tmpls.txt
-   ls $wdir >> /out/tmpls.txt
+#    echo "---just done loop: ls  $wdir" >> /out/tmpls.txt
+#    ls $wdir >> /out/tmpls.txt
 
-   echo "ls /out" >> $logfile
-   echo "---" >> $logfile
-ls /out >> /out/tmpls.txt
-   echo "---" >> $logfile
+#    echo "ls /out" >> $logfile
+#    echo "---" >> $logfile
+# ls /out >> /out/tmpls.txt
+#    echo "---" >> $logfile
 
    cd /work
    #echo "---$wdir content: ">> $logfile
@@ -124,24 +124,24 @@ ls /out >> /out/tmpls.txt
 
    chown 1000.1000 $out
 
-   echo "----" > /out/tmp.txt
-   echo "ls /work/input" >> /out/tmp.txt
-   ls /work/input >> /out/tmp.txt
-   echo "ls ." >> /out/tmp.txt
-   ls  >> /out/tmp.txt
-   echo "ls /out" >> /out/tmp.txt
-   ls /out >> /out/tmp.txt
-   echo "ls /work/build" >> /out/tmp.txt
-   ls /work/build >> /out/tmp.txt
-   echo "out=$out" >> /out/tmp.txt
-   echo "PWD:" >> /out/tmp.txt
-   pwd >> /out/tmp.txt
-   ls >> /out/tmp.txt
-   ls build >> /out/tmp.txt
-   chown 1000.1000 /out/tmp.txt
-   echo cp $out /out>> /out/tmp.txt
-   echo ls out=$out >> /out/tmp.txt
-   ls $out >> /out/tmp.txt
+   # echo "----" > /out/tmp.txt
+   # echo "ls /work/input" >> /out/tmp.txt
+   # ls /work/input >> /out/tmp.txt
+   # echo "ls ." >> /out/tmp.txt
+   # ls  >> /out/tmp.txt
+   # echo "ls /out" >> /out/tmp.txt
+   # ls /out >> /out/tmp.txt
+   # echo "ls /work/build" >> /out/tmp.txt
+   # ls /work/build >> /out/tmp.txt
+   # echo "out=$out" >> /out/tmp.txt
+   # echo "PWD:" >> /out/tmp.txt
+   # pwd >> /out/tmp.txt
+   # ls >> /out/tmp.txt
+   # ls build >> /out/tmp.txt
+   # chown 1000.1000 /out/tmp.txt
+   # echo cp $out /out>> /out/tmp.txt
+   # echo ls out=$out >> /out/tmp.txt
+   # ls $out >> /out/tmp.txt
 
 
    cp -r $wdir input #Temp to test listing in order

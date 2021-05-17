@@ -59,10 +59,16 @@ const argv = yargs(process.argv)
     description: 'Name the output using current Basedirname'
   })
   .option('noclean', {
-    alias: 'd',
+    alias: 'nc',
     type: 'boolean',
     default: false,
     description: 'do not clean procssing stuff'
+  })
+  .option('feh', {
+    alias: 'o',
+    type: 'boolean',
+    default: false,
+    description: 'Open viewer CSM after generating'
   })
   .example(`gicsl-d --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
     # will extract 285 and add that instead of filename`)
@@ -132,6 +138,8 @@ vb("VERBOSE IS ON");
 var l = argv.label;
 var noclean = argv.noclean;
 
+var feh = argv.feh;
+
 if (l) vb("LABEL MODE IS ON");
 
 var filein = argv.file ? argv.file : null;
@@ -188,7 +196,7 @@ if (os == "win32") {
     .then(output => {
       //console.log(output);
 
-      make_docker_cmd(output);
+      make_docker_cmd_Then_RUN(output);
     })
     .catch(err => {
       console.log(err);
@@ -206,7 +214,7 @@ else {
     `export indir=$(pwd);export outdir="$(realpath ${target_dir})";echo "$indir\n$outdir"`,
     function (err, data, stderr) {
       // console.log(data);
-      make_docker_cmd(data);
+      make_docker_cmd_Then_RUN(data);
     }
   );
 
@@ -218,7 +226,7 @@ else {
  * By Guillaume Descoteaux-Isabelle, 2020
  * @param {*} output 
  */
-function make_docker_cmd(output) {
+function make_docker_cmd_Then_RUN(output) {
   var arr = output.split("\n");
   var inPath = arr[0];
   var outPath = arr[1];
