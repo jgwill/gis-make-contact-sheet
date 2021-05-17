@@ -297,7 +297,7 @@ function platform_run(cmdToRun) {
           else {
             console.log("-- Result will open pretty soon----\n-------------------------------");
             //@a OPEN THE RESULT
-            var fehCMD = `${fehExec} ${targetOutput}  `;
+            var fehCMD = `${fehExec} ${targetOutput.replace("/","\\")}  `;
             var fullCMD = `(sleep 2;echo "opening image result soon";sleep 5;${fehCMD})&`;
 
             const ps2 = new Shell({
