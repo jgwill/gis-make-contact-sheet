@@ -57,7 +57,14 @@ const argv = yargs(process.argv)
     type: 'boolean',
     default: false,
     description: 'Name the output using current Basedirname'
-  }).usage(`gicsl-d --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
+  })
+  .option('noclean', {
+    alias: 'd',
+    type: 'boolean',
+    default: false,
+    description: 'do not clean procssing stuff'
+  })
+  .example(`gicsl-d --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
     # will extract 285 and add that instead of filename`)
   .option('verbose', {
     alias: 'v',
@@ -123,6 +130,7 @@ vb("VERBOSE IS ON");
 //process.exit(1);
 
 var l = argv.label;
+var noclean = argv.noclean;
 
 if (l) vb("LABEL MODE IS ON");
 
@@ -216,8 +224,14 @@ function make_docker_cmd(output) {
   var outPath = arr[1];
   var callArgs = "";
 
-  if (l) callArgs += " --label"; //Add call args label extraction
-
+  if (l) {
+  callArgs += " --label"; //Add call args label extraction
+  vb("--label was used");
+  }
+  if (noclean){
+   callArgs += " --noclean"; //Add call args noclean
+   vb("--noclean was used");
+}
   var cmdToRun =
     `docker run -d -t --rm ` +
     `-v ${inPath.trim()}:${mount_in} ` +
