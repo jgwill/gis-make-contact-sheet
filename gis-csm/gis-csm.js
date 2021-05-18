@@ -258,7 +258,7 @@ function make_docker_cmd_Then_RUN(output) {
   var outPath = arr[1];
   //console.log("outPath after split:" + outPath);
   targetOutput = path.join(outPath,target_file_name_only);
-  
+
   var callArgs = "";
 
   if (l) {
@@ -323,10 +323,11 @@ function platform_run(cmdToRun) {
           else {
             console.log("-- Result will open pretty soon----\n-------------------------------");
             //@a OPEN THE RESULT
-            var fehCMD = `${fehExec} ${targetOutput.replace("/", "\\\\").replace("/", "\\\\").replace("/", "\\\\") .replace("/", "\\\\")}  `;
+            var fehCMD = `${fehExec} ${targetOutput.replace("/", "\\\\").replace("/", "\\\\").replace("/", "\\\\") .replace("/", "\\\\") .replace("/", "\\\\") .replace("/", "\\\\").replace("/", "\\\\").replace("/", "\\\\") .replace("/", "\\\\") .replace("/", "\\\\") .replace("/", "\\\\").replace("/", "\\\\").replace("/", "\\\\") .replace("/", "\\\\") .replace("/", "\\\\") .replace("/", "\\\\").replace("/", "\\\\").replace("/", "\\\\") .replace("/", "\\\\") .replace("/", "\\\\")  //ya I'm lazy
+          }  `;
             var fullCMD = `(sleep 2;echo "opening image result soon";sleep 5;${fehCMD})&`;
 
-            console.log(fullCMD);
+            console.log("---\n"+fullCMD+"\n-----");
 
             const ps2 = new Shell({
               executionPolicy: 'Bypass',
