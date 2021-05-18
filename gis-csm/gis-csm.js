@@ -257,7 +257,8 @@ function make_docker_cmd_Then_RUN(output) {
   var inPath = arr[0];
   var outPath = arr[1];
   //console.log("outPath after split:" + outPath);
-  targetOutput = target_file_name_only;
+  targetOutput = path.join(outPath,target_file_name_only);
+  
   var callArgs = "";
 
   if (l) {
