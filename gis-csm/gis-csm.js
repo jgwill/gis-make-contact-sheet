@@ -324,6 +324,8 @@ function platform_run(cmdToRun) {
             //@a OPEN THE RESULT
             var fehCMD = `${fehExec} ${targetOutput.replace("/", "\\\\").replace("/", "\\\\").replace("/", "\\\\") .replace("/", "\\\\")}  `;
             var fullCMD = `(sleep 2;echo "opening image result soon";sleep 5;${fehCMD})&`;
+            
+            console.log(fullCMD);
 
             const ps2 = new Shell({
               executionPolicy: 'Bypass',
