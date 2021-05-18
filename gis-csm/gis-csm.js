@@ -5,7 +5,6 @@
  * Current Reality:First testing
  */
 
-var preFix = "_"; var sufFix = ".csm"; var ext = ".jpg";
 var container_tag = "jgwill/gis-csm";
 var mount_in = "/work/input";
 var mount_out = "/out";
@@ -34,23 +33,33 @@ const argv = yargs(process.argv)
 
   .scriptName("gicsl")
   .usage(appStartMessage)
-  // .command('serve [port]', 'start the server', (yargs) => {
-  //   yargs
-  //     .positional('f', {
-  //       describe: 'port to bind on',
-  //       type:'string',
-  //       default: 5000
-  //     })
-  // }, (argv) => {
-  //   if (argv.verbose) console.info(`start server on :${argv.port}`)
-  //   //serve(argv.port)
-  //   console.log("test");
-  //   console.info(`start server on :${argv.port}`)
-  // })
   .option('file', {
     alias: 'f',
     type: 'string',
     description: 'Specify the file out'
+  })
+  .option('prefix', {
+    alias: 'px',
+    type: 'string',
+    default: '_',
+    description: 'Specify the file out prefix'
+  })
+  .option('suffix', {
+    alias: 'sx',
+    type: 'string',
+    default: '.csm',
+    description: 'Specify the file out suffix'
+  })
+  .option('ext', {
+    alias: 'x',
+    type: 'string',
+    default: '.jpg',
+    description: 'Specify the file out suffix'
+  })
+  .option('fileout', {
+    alias: 'o',
+    type: 'string',
+    description: 'Specify the file out.'
   })
   .option('directory', {
     alias: 'd',
@@ -70,8 +79,14 @@ const argv = yargs(process.argv)
     default: false,
     description: 'Open viewer CSM after generating'
   })
+  .option('nosuffix', {
+    alias: 'nsf',
+    type: 'boolean',
+    default: false,
+    description: 'no suffix to output'
+  })
   .example(`gicsl-d --label  # Assuming this file in directory: vm_s01-v01_768x___285k.jpg
-    # will extract 285 and add that instead of filename`)
+  # will extract 285 and add that instead of filename`)
   .option('verbose', {
     alias: 'v',
     default: false,
@@ -85,6 +100,14 @@ const argv = yargs(process.argv)
     description: 'Label using last digit in filename (used for parsing inference result that contain checkpoint number)'
   })
   .argv;
+
+var preFix = "_"; var sufFix = ".csm"; var ext = ".jpg";
+
+if (argv.prefix) preFix = argv.prefix;
+if (argv.suffix) sufFix = argv.suffix;
+if (argv.nosuffix) sufFix = "";
+if (argv.ext) ext = argv.ext;
+
 
 if (argv.directory && argv.file) {
   console.log("Can not use --file and --directory together");
@@ -146,11 +169,16 @@ if (l) vb("LABEL MODE IS ON");
 
 var filein = argv.file ? argv.file : null;
 
+if (argv.fileout) target_file = argv.fileout;
+console.log(target_file);
+
 //Use the first arguments as file if not BASEDIRNAME
 if (filein) {
   //@a We have specified an output file for the CS
   target_file = filein;
   vb("FILE WAS SPECIFIED: " + target_file);
+
+
   // console.log(target_dir);
 }
 else if (argv.directory) {
@@ -163,6 +191,8 @@ else if (argv.directory) {
 
   vb("Basename is: " + cdirBasename);
   target_file = "../" + preFix + cdirBasename + sufFix + ext;
+
+
   //@STCGoal That we have a file in ../_$basedir.csm.jpg created if noargs.
 
 } else {
@@ -172,13 +202,17 @@ else if (argv.directory) {
   process.exit(1);
 }
 
+if (argv.fileout) target_file = argv.fileout;
+console.log("targetfile" + target_file);
+console.log("targetdir:" + target_dir);
+
 vb("target_file:" + target_file);
 //process.exit(1);
 target_file_name_only = path.basename(target_file);
 target_dir = path.dirname(target_file);
 
 // console.log(target_file);
-// console.log(target_dir);
+console.log("targetdir:" + target_dir);
 // console.log(target_file_name_only);
 // process.exit(1);
 // process.exit(0);
@@ -232,6 +266,7 @@ function make_docker_cmd_Then_RUN(output) {
   var arr = output.split("\n");
   var inPath = arr[0];
   var outPath = arr[1];
+  //console.log("outPath after split:" + outPath);
   targetOutput = outPath;
   var callArgs = "";
 
@@ -297,7 +332,7 @@ function platform_run(cmdToRun) {
           else {
             console.log("-- Result will open pretty soon----\n-------------------------------");
             //@a OPEN THE RESULT
-            var fehCMD = `${fehExec} ${targetOutput.replace("/","\\")}  `;
+            var fehCMD = `${fehExec} ${targetOutput.replace("/", "\\")}  `;
             var fullCMD = `(sleep 2;echo "opening image result soon";sleep 5;${fehCMD})&`;
 
             const ps2 = new Shell({
