@@ -56,11 +56,6 @@ const argv = yargs(process.argv)
     default: '.jpg',
     description: 'Specify the file out suffix'
   })
-  .option('fileout', {
-    alias: 'o',
-    type: 'string',
-    description: 'Specify the file out.'
-  })
   .option('directory', {
     alias: 'd',
     type: 'boolean',
@@ -169,8 +164,6 @@ if (l) vb("LABEL MODE IS ON");
 
 var filein = argv.file ? argv.file : null;
 
-if (argv.fileout) target_file = argv.fileout;
-console.log(target_file);
 
 //Use the first arguments as file if not BASEDIRNAME
 if (filein) {
@@ -202,9 +195,6 @@ else if (argv.directory) {
   process.exit(1);
 }
 
-if (argv.fileout) target_file = argv.fileout;
-console.log("targetfile" + target_file);
-console.log("targetdir:" + target_dir);
 
 vb("target_file:" + target_file);
 //process.exit(1);
@@ -212,7 +202,7 @@ target_file_name_only = path.basename(target_file);
 target_dir = path.dirname(target_file);
 
 // console.log(target_file);
-console.log("targetdir:" + target_dir);
+//console.log("targetdir:" + target_dir);
 // console.log(target_file_name_only);
 // process.exit(1);
 // process.exit(0);

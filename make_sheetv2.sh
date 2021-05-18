@@ -2,12 +2,12 @@
 
 #@STCGoal ADD Feature Custom Label that is a Checkpoint.
 export out=$1
-export tngeo=250
+export tngeo=230
 export tngeox=$tngeo'x'
 logfile=/work/input/log.csm.txt
 label='%f'
-echo "-----------DEBUG--------$(date)--------"
-sleep 1
+echo "----DEBUG::$out--------$(date)--------"
+#sleep 1
 # ls /out
 # pwd
 # df -h /out
@@ -15,9 +15,9 @@ sleep 1
 
 wdir=/work/build
 
-if [ "$2" != "" ];then
+if [ "$2" == "--label" ]  ||  [ "$3" == "--label" ]   ||  [ "$3" == "-l" ] ||  [ "$2" == "-l" ] ;then
    echo "--- We have arguments..."
-   sleep 1
+   #sleep 1
    echo "-----------------------" >> $logfile
    echo "----------$(date)------" >> $logfile
    echo "----------$1------" >> $logfile
@@ -89,7 +89,7 @@ if [ "$2" != "" ];then
    echo "ls $wdir" >> $logfile
    ls $wdir >> $logfile
 
-   echo "-----------DONE RESIZE----$(date)-----------">> $logfile
+   echo "-----$out---DONE RESIZE----$(date)----">> $logfile
 
    fn=$1
    echo "DEBUG::fn=$fn" >> $logfile
@@ -99,8 +99,7 @@ if [ "$2" != "" ];then
 
 
    #exit 0
-   echo    montage -verbose -label '%f' -font Helvetica -pointsize 11 -background '#000000' -fill 'gray' -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2 \
-      -auto-orient $wdir/* $out >> $logfile
+   echo    montage -verbose -label '%f' -font Helvetica -pointsize 11 -background '#000000' -fill 'gray' -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2  -auto-orient $wdir/* $out >> $logfile
 
    # montage -verbose -label '%f' -font Helvetica -pointsize 11 -background '#000000' -fill 'gray' -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2 -auto-orient $wdir/* /out/$out
    montage -verbose -label '%f' -font Helvetica -pointsize 11 -background '#000000' -fill 'gray' -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2 \
@@ -119,8 +118,8 @@ if [ "$2" != "" ];then
 
    cd ..
 
-   echo "--------ALL DONE------$(date)------------">> $logfile
-
+   echo "-----$out---ALL DONE------$(date)------">> $logfile
+   echo "---------------------------------------">> $logfile
 
    chown 1000.1000 $out
 
@@ -146,9 +145,9 @@ if [ "$2" != "" ];then
 
    cp -r $wdir input #Temp to test listing in order
 
-   chown 1000.1000 /work/input/*
+   #chown 1000.1000 /work/input/*
 
-   if [ "$3" != "--noclean" ]; then 
+   if [ "$2" != "--noclean" ] && [ "$3" != "--noclean" ] && [ "$4" != "--noclean" ]  && [ "$5" != "--noclean" ]; then 
       echo "cleaning"
       rm -rf /work/input/build 
       rm $logfile
@@ -158,7 +157,6 @@ if [ "$2" != "" ];then
    # cp $out /work/input
    # cp /work/input/_*.csm.l.jpg /out/
    cp $out /out/
-   chown 1000.1000 /out/_*.csm.l.jpg
    
    
 
@@ -166,6 +164,8 @@ else
    montage -verbose -label $label -font Helvetica -pointsize 10 -background '#000000' -fill 'gray' -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2 -auto-orient input/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$1
 fi
 
+chown 1000.1000 /out/*.csm.l.jpg
+chown 1000.1000 /out/*.csm.jpg
 # montage -verbose -label $label -font Helvetica -pointsize 10 -background '#000000' -fill 'gray' -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2 -auto-orient input/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$1
 
 
