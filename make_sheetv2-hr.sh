@@ -3,7 +3,7 @@
 #@STCGoal ADD Feature Custom Label that is a Checkpoint.
 export out=$1
 export tngeo=512
-export pointsize=14
+export pointsize=22
 export tngeox=$tngeo'x'
 logfile=/work/input/log.csm.txt
 label='%f'
