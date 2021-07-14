@@ -4,9 +4,9 @@
 export out=$1
 export tngeo=512
 export pointsize=24
-export lfsuffix='l.jpg'
+export lfsuffix='hr.l.jpg'
 export tngeox=$tngeo'x'
-logfile=/work/input/log.csm.txt
+logfile=/work/input/log.csm.uhr.txt
 label='%f'
 echo "----DEBUG::$out--------$(date)--------"
 #sleep 1
@@ -64,8 +64,8 @@ if [ "$2" == "--label" ]  ||  [ "$3" == "--label" ]   ||  [ "$3" == "-l" ] ||  [
          
          label=$tmpstring
          cc=`printf %03d $c`
-         tfile=$cc'__'$label'.jpg'
-         tfile=$label'.jpg'
+         #tfile=$cc'__'$label'.jpg'
+         #tfile=$label'.jpg'
          tfile=$label
          echo "Resized: $tmpstring  : $tfile" >> $logfile
 

@@ -4,9 +4,9 @@
 export out=$1
 export tngeo=1024
 export pointsize=44
-export lfsuffix='l.jpg'
+export lfsuffix='uhr.l.jpg'
 export tngeox=$tngeo'x'
-logfile=/work/input/log.csm.txt
+logfile=/work/input/log.csm.uhr.txt
 label='%f'
 echo "----DEBUG::$out--------$(date)--------"
 #sleep 1
