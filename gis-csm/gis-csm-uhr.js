@@ -47,7 +47,7 @@ const argv = yargs(process.argv)
   .option('suffix', {
     alias: 'sx',
     type: 'string',
-    default: '.csm',
+    default: '.csm.uhr',
     description: 'Specify the file out suffix'
   })
   .option('ext', {
@@ -96,7 +96,7 @@ const argv = yargs(process.argv)
   })
   .argv;
 
-var preFix = "_"; var sufFix = ".csm.uhd"; var ext = ".jpg";
+var preFix = "_"; var sufFix = ".csm.uhr"; var ext = ".jpg";
 
 if (argv.prefix) preFix = argv.prefix;
 if (argv.suffix) sufFix = argv.suffix;
