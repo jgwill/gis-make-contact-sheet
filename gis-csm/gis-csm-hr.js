@@ -96,7 +96,7 @@ const argv = yargs(process.argv)
   })
   .argv;
 
-var preFix = "_"; var sufFix = ".csm"; var ext = ".jpg";
+var preFix = "_"; var sufFix = ".csm.hr"; var ext = ".jpg";
 
 if (argv.prefix) preFix = argv.prefix;
 if (argv.suffix) sufFix = argv.suffix;
