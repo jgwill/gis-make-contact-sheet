@@ -8,6 +8,7 @@
   },
   "bin": {
     "gis-csm": "gis-csm.js",
+    "gis-csm-hr": "gis-csm-hr.js",
     "gicsl": "gis-csm.js"
   },
   "repository": {
