@@ -47,7 +47,7 @@ const argv = yargs(process.argv)
   .option('suffix', {
     alias: 'sx',
     type: 'string',
-    default: '.csm.hr',
+    default: '.csm',
     description: 'Specify the file out suffix'
   })
   .option('ext', {
