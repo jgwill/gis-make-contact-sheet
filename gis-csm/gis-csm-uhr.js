@@ -5,7 +5,7 @@
  * Current Reality:First testing
  */
 
-var container_tag = "jgwill/gis-csm-uhr";
+var container_tag = "jgwill/gis-csm:uhr";
 var mount_in = "/work/input";
 var mount_out = "/out";
 
