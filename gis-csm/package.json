@@ -1,6 +1,6 @@
 {
   "name": "gis-csm",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "CLI wrapper for Contact sheet maker using containerized infrastructure",
   "main": "csm",
   "scripts": {
@@ -9,6 +9,7 @@
   "bin": {
     "gis-csm": "gis-csm.js",
     "gis-csm-hr": "gis-csm-hr.js",
+    "gis-csm-uhr": "gis-csm-uhr.js",
     "gicsl": "gis-csm.js"
   },
   "repository": {
