@@ -5,7 +5,7 @@
  * Current Reality:First testing
  */
 
-var container_tag = "jgwill/gis-csm";
+var container_tag = "jgwill/gis-csm-hr";
 var mount_in = "/work/input";
 var mount_out = "/out";
 
