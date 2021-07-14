@@ -2,8 +2,9 @@
 
 #@STCGoal ADD Feature Custom Label that is a Checkpoint.
 export out=$1
-export tngeo=512
-export pointsize=22
+export tngeo=1024
+export pointsize=44
+export lfsuffix='l.jpg'
 export tngeox=$tngeo'x'
 logfile=/work/input/log.csm.txt
 label='%f'
@@ -95,7 +96,7 @@ if [ "$2" == "--label" ]  ||  [ "$3" == "--label" ]   ||  [ "$3" == "-l" ] ||  [
    fn=$1
    echo "DEBUG::fn=$fn" >> $logfile
    fnb=${fn%.*}
-   export out=/work/$fnb'.l.jpg'
+   export out=/work/$fnb.$lfsuffix
    echo "DEBUG::out=$out" >> $logfile
 
    #exit 0
@@ -164,7 +165,7 @@ else
    montage -verbose -label $label -font Helvetica -pointsize $pointsize -background '#000000' -fill 'gray' -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2 -auto-orient input/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$1
 fi
 
-chown 1000.1000 /out/*.csm.l.jpg
+chown 1000.1000 /out/*.csm.$lfsuffix
 chown 1000.1000 /out/*.csm.jpg
 # montage -verbose -label $label -font Helvetica -pointsize 10 -background '#000000' -fill 'gray' -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2 -auto-orient input/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$1
 
