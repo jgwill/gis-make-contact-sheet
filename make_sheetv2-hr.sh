@@ -3,8 +3,9 @@
 #@STCGoal ADD Feature Custom Label that is a Checkpoint.
 export out=$1
 export tngeo=512
-export pointsize=24
+export pointsize=28
 export lfsuffix='hr.l.jpg'
+export fill='#555555'
 export tngeox=$tngeo'x'
 logfile=/work/input/log.csm.uhr.txt
 label='%f'
@@ -64,8 +65,8 @@ if [ "$2" == "--label" ]  ||  [ "$3" == "--label" ]   ||  [ "$3" == "-l" ] ||  [
          
          label=$tmpstring
          cc=`printf %03d $c`
-         #tfile=$cc'__'$label'.jpg'
-         #tfile=$label'.jpg'
+         tfile=$cc'__'$label'.jpg'
+         tfile=$label'.jpg'
          tfile=$label
          echo "Resized: $tmpstring  : $tfile" >> $logfile
 
@@ -98,12 +99,11 @@ if [ "$2" == "--label" ]  ||  [ "$3" == "--label" ]   ||  [ "$3" == "-l" ] ||  [
    fnb=${fn%.*}
    export out=/work/$fnb.$lfsuffix
    echo "DEBUG::out=$out" >> $logfile
-
    #exit 0
-   echo    montage -verbose -label '%f' -font Helvetica -pointsize $pointsize -background '#000000' -fill 'gray' -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2  -auto-orient $wdir/* $out >> $logfile
+   echo    montage -verbose -label '%f' -font Helvetica -pointsize $pointsize -background '#000000' -fill "$fill" -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2  -auto-orient $wdir/* $out >> $logfile
 
    # montage -verbose -label '%f' -font Helvetica -pointsize 11 -background '#000000' -fill 'gray' -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2 -auto-orient $wdir/* /out/$out
-   montage -verbose -label '%f' -font Helvetica -pointsize $pointsize -background '#000000' -fill 'gray' -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2 \
+   montage -verbose -label '%f' -font Helvetica -pointsize $pointsize -background '#000000' -fill "$fill" -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2 \
       -auto-orient $wdir/* "$out"
    
   #echo "montage ...    -auto-orient $wdir/* /out/$out "  >> $logfile
@@ -162,7 +162,7 @@ if [ "$2" == "--label" ]  ||  [ "$3" == "--label" ]   ||  [ "$3" == "-l" ] ||  [
    
 
 else
-   montage -verbose -label $label -font Helvetica -pointsize $pointsize -background '#000000' -fill 'gray' -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2 -auto-orient input/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$1
+   montage -verbose -label $label -font Helvetica -pointsize $pointsize -background '#000000' -fill "$fill" -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2 -auto-orient input/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$1
 fi
 
 chown 1000.1000 /out/*.csm.$lfsuffix
