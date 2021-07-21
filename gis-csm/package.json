@@ -10,6 +10,7 @@
     "gis-csm": "gis-csm.js",
     "gis-csm-hr": "gis-csm-hr.js",
     "gis-csm-uhr": "gis-csm-uhr.js",
+    "gis-csm-xhr": "gis-csm-xhr.js",
     "gicsl": "gis-csm.js"
   },
   "repository": {
