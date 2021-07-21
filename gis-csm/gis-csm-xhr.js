@@ -27,6 +27,8 @@ var appStartMessage =
 By Guillaume Descoteaux-Isabelle, 2020-2021
 version ${ver}
 ----------------------------------------`;
+console.log(appStartMessage);
+
 //const { argv } = require('process');
 //const { hideBin } = require('yargs/helpers')
 const argv = yargs(process.argv)

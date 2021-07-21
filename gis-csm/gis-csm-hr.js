@@ -23,10 +23,12 @@ const yargs = require('yargs');
 var ver = yargs.version();
 
 var appStartMessage =
-  `Multi platform Contact Sheet maker
+  `Multi platform Contact Sheet maker High Res
 By Guillaume Descoteaux-Isabelle, 2020-2021
 version ${ver}
 ----------------------------------------`;
+console.log(appStartMessage);
+
 //const { argv } = require('process');
 //const { hideBin } = require('yargs/helpers')
 const argv = yargs(process.argv)
