@@ -25,7 +25,7 @@ var ver = yargs.version();
 var appStartMessage =
   `Multi platform Contact Sheet maker High Res
 By Guillaume Descoteaux-Isabelle, 2020-2021
-version ${ver}
+version 0.6.x
 ----------------------------------------`;
 console.log(appStartMessage);
 
@@ -33,7 +33,7 @@ console.log(appStartMessage);
 //const { hideBin } = require('yargs/helpers')
 const argv = yargs(process.argv)
 
-  .scriptName("gicsl")
+  .scriptName("gis-csm-hr")
   .usage(appStartMessage)
   .option('file', {
     alias: 'f',
