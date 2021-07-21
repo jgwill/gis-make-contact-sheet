@@ -151,6 +151,7 @@ if [ "$2" == "--label" ]  ||  [ "$3" == "--label" ]   ||  [ "$3" == "-l" ] ||  [
    if [ "$2" != "--noclean" ] && [ "$3" != "--noclean" ] && [ "$4" != "--noclean" ]  && [ "$5" != "--noclean" ]; then 
       echo "cleaning"
       rm -rf /work/input/build 
+      (sleep 3;rm -rf /work/input/build)&
       rm $logfile
    #else
    fi
@@ -162,7 +163,7 @@ if [ "$2" == "--label" ]  ||  [ "$3" == "--label" ]   ||  [ "$3" == "-l" ] ||  [
    
 
 else
-   montage -verbose -label $label -font Helvetica -pointsize $pointsize -background '#000000' -fill "$fill" -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2 -auto-orient input/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$1
+   montage -verbose -label $label -font Helvetica -pointsize $pointsize -background '#000000' -fill "$fill" -define jpeg:size=$tngeo'x'$tngeo -geometry $tngeo'x'$tngeo+2+2 -auto-orient input/*.{jpg,JPG,png,PNG,bmp,BMP} /out/$out
 fi
 
 chown 1000.1000 /out/*.csm.$lfsuffix

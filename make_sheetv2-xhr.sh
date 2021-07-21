@@ -1,13 +1,13 @@
 #!/bin/bash
 
 #@STCGoal ADD Feature Custom Label that is a Checkpoint.
-export out=$(echo "$1" | sed -e 's/csm\.jpg/csm.uhr.jpg/g')
-export tngeo=1024
-export pointsize=52
-export lfsuffix='uhr.l.jpg'
+export out=$(echo "$1" | sed -e 's/csm\.jpg/csm.xhr.jpg/g')
+export tngeo=1536
+export pointsize=62
+export lfsuffix='xhr.l.jpg'
 export fill='#555555'
 export tngeox=$tngeo'x'
-logfile=/work/input/log.csm.uhr.txt
+logfile=/work/input/log.csm.xhr.txt
 label='%f'
 echo "----DEBUG::$out--------$(date)--------"
 #sleep 1
