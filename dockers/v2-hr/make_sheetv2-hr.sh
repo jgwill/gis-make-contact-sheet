@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #@STCGoal ADD Feature Custom Label that is a Checkpoint.
-export out=$1
+export out=$(echo "$1" | sed -e 's/csm\.jpg/csm.hr.jpg/g')
 export tngeo=512
 export pointsize=28
 export lfsuffix='hr.l.jpg'
