@@ -5,7 +5,7 @@
  * Current Reality:First testing
  */
 
-var container_tag = "jgwill/gis-csm";
+var container_tag = "jgwill/gis-csm:hr";
 var mount_in = "/work/input";
 var mount_out = "/out";
 
@@ -24,7 +24,7 @@ var ver = yargs.version();
 
 var appStartMessage =
   `Multi platform Contact Sheet maker
-By Guillaume Descoteaux-Isabelle, 2020-2021
+By Guillaume Descoteaux-Isabelle, 2020-2022
 version 0.6.x
 ----------------------------------------`;
 console.log(appStartMessage);

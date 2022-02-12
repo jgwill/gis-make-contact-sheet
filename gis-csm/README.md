@@ -6,6 +6,13 @@ Making a contact sheet and adapt to Operating system context.
 
 >Other alias : gicsl
 
+>gis-csm-hr #high res  
+
+>gis-csm-uhr #ultra high res  
+
+>gis-csm-xhr #extra high res  
+
+
 ## Run from directory where all your files are
 ```sh
 gis-csm -f ../mycontactsheet.jpg #specify target image

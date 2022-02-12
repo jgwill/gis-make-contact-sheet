@@ -7,7 +7,7 @@ export pointsize=28
 export lfsuffix='hr.l.jpg'
 export fill='#555555'
 export tngeox=$tngeo'x'
-logfile=/work/input/log.csm.uhr.txt
+logfile=/work/input/log.csm.hr.txt
 label='%f'
 echo "----DEBUG::$out--------$(date)--------"
 #sleep 1

@@ -1,6 +1,7 @@
-FROM jgwill/imagemagick
+#FROM jgwill/imagemagick
+FROM jgwill/alpine:imagemagick
 
-ENV DEBIAN_FRONTEND noninteractive
+#ENV DEBIAN_FRONTEND noninteractive
 
 ####
 WORKDIR /work

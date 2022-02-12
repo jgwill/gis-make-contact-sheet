@@ -24,7 +24,7 @@ var ver = yargs.version();
 
 var appStartMessage =
   `Multi platform Contact Sheet maker High Res
-By Guillaume Descoteaux-Isabelle, 2020-2021
+By Guillaume Descoteaux-Isabelle, 2020-2022
 version 0.6.x
 ----------------------------------------`;
 console.log(appStartMessage);

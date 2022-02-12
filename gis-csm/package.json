@@ -1,6 +1,6 @@
 {
   "name": "gis-csm",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "CLI wrapper for Contact sheet maker using containerized infrastructure",
   "main": "csm",
   "scripts": {
